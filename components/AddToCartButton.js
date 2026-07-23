@@ -1,4 +1,4 @@
-'use client';
+''use client';
 
 import { useState } from 'react';
 import { useCart } from '@/context/CartContext';
@@ -14,8 +14,8 @@ export default function AddToCartButton({ product }) {
   }
 
   return (
-    <button onClick={handleClick} disabled={added}>
-      {added ? 'Додано ✓' : 'Додати в кошик'}
+    <button className="btn-cart" onClick={handleClick} disabled={added}>
+      {added ? '✓ Додано в кошик!' : '🛒 Додати в кошик'}
     </button>
   );
 }
