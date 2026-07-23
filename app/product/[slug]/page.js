@@ -2,25 +2,16 @@ import { notFound } from 'next/navigation';
 import { getAllProducts, getProductBySlug, generateSeo, SITE_URL } from '@/lib/sheets';
 import AddToCartButton from '@/components/AddToCartButton';
 
-export const dynamicParams = true;
-
-export async function generateStaticParams() {
-  const products = await getAllProducts();
-  return products.map((p) => ({ slug: p.slug }));
-}
+export const dynamic = 'force-dynamic';
 
 export async function generateMetadata({ params }) {
   const product = await getProductBySlug(params.slug);
   if (!product) return {};
-
   const seo = generateSeo(product);
-
   return {
     title: seo.title,
     description: seo.description,
-    alternates: {
-      canonical: `${SITE_URL}/product/${product.slug}`,
-    },
+    alternates: { canonical: `${SITE_URL}/product/${product.slug}` },
     openGraph: {
       title: seo.title,
       description: seo.description,
@@ -32,15 +23,14 @@ export async function generateMetadata({ params }) {
 export default async function ProductPage({ params }) {
   const product = await getProductBySlug(params.slug);
   if (!product) notFound();
-
   const seo = generateSeo(product);
 
   return (
     <main>
       <nav>
-        <a href="/">Головна</a> {' '}
-        <a href="/catalog">Каталог</a> {' '}
-        <a href={`/category/${product.categorySlug}`}>{product.category}</a> {' '}
+        <a href="/">Головна</a> /{' '}
+        <a href="/catalog">Каталог</a> /{' '}
+        <a href={`/category/${product.categorySlug}`}>{product.category}</a> /{' '}
         <a href={`/brand/${product.brandSlug}`}>{product.brand}</a>
       </nav>
 
@@ -65,7 +55,7 @@ export default async function ProductPage({ params }) {
             slug: product.slug,
             name: product.name,
             price: product.price,
-            image: product.image,
+            image: product.image || '',
           }}
         />
       )}
@@ -77,4 +67,3 @@ export default async function ProductPage({ params }) {
     </main>
   );
 }
-
