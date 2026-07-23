@@ -11,8 +11,6 @@ export const metadata = {
   description: 'Повний каталог запчастин для машинок для стрижки з фільтрами за категорією, брендом і моделлю.',
 };
 
-// searchParams тут — це ?category=...&brand=...&model=...&q=...
-// Next.js передає їх серверному компоненту автоматично.
 export default async function CatalogPage({ searchParams }) {
   const filters = {
     q: searchParams.q || '',
@@ -29,59 +27,73 @@ export default async function CatalogPage({ searchParams }) {
   ]);
 
   return (
-    <main>
-      <nav><Link href="/">Головна</Link> / Каталог</nav>
-      <h1>Каталог товарів</h1>
+    <div className="page-wrapper">
+      <nav className="breadcrumb">
+        <Link href="/">Головна</Link>
+        <span>/</span>
+        <span>Каталог</span>
+      </nav>
 
-      {/*
-        Звичайна HTML-форма з method="get" — це принципово важливо:
-        вона працює навіть якщо JavaScript вимкнений (чи не встиг
-        завантажитись), бо браузер сам формує URL типу
-        /catalog?category=nozhi&brand=wahl
-      */}
-      <form method="get" action="/catalog">
+      <h1 style={{ fontSize: '1.6rem', fontWeight: 800, marginBottom: '24px' }}>Каталог товарів</h1>
+
+      <form method="get" action="/catalog" className="catalog-filters">
         <input
           type="text"
           name="q"
-          placeholder="Пошук товару..."
+          placeholder="🔍 Пошук товару..."
           defaultValue={filters.q}
         />
-
         <select name="category" defaultValue={filters.category}>
           <option value="">Усі категорії</option>
           {categories.map((c) => (
             <option key={c.slug} value={c.slug}>{c.name}</option>
           ))}
         </select>
-
         <select name="brand" defaultValue={filters.brand}>
           <option value="">Усі бренди</option>
           {brands.map((b) => (
             <option key={b.slug} value={b.slug}>{b.name}</option>
           ))}
         </select>
-
         <select name="model" defaultValue={filters.model}>
           <option value="">Усі моделі</option>
           {models.map((m) => (
             <option key={m.slug} value={m.slug}>{m.name}</option>
           ))}
         </select>
-
-        <button type="submit">Знайти</button>
+        <button type="submit" className="btn-primary">Знайти</button>
       </form>
 
-      <p>Знайдено товарів: {products.length}</p>
+      <p className="catalog-count">Знайдено товарів: <strong>{products.length}</strong></p>
 
-      <ul>
-        {products.map((p) => (
-          <li key={p.id || p.slug}>
-            <Link href={`/product/${p.slug}`}>{p.name}</Link> — {p.price} грн
-          </li>
-        ))}
-      </ul>
-
-      {products.length === 0 && <p>Нічого не знайдено. Спробуйте змінити фільтри.</p>}
-    </main>
+      {products.length === 0 ? (
+        <div className="empty-state">
+          <h2>Нічого не знайдено</h2>
+          <p>Спробуйте змінити фільтри або очистити пошук</p>
+        </div>
+      ) : (
+        <div className="product-grid">
+          {products.map((p) => (
+            <Link key={p.id || p.slug} href={`/product/${p.slug}`} style={{ textDecoration: 'none' }}>
+              <div className="product-card">
+                {p.image ? (
+                  <img className="product-card-img" src={p.image} alt={p.name} />
+                ) : (
+                  <div className="product-card-img-placeholder">{p.emoji || '📦'}</div>
+                )}
+                <div className="product-card-body">
+                  <div className="product-card-name">{p.name}</div>
+                  <span className={`product-card-badge ${p.inStock ? '' : 'out'}`}>
+                    {p.inStock ? 'В наявності' : 'Немає'}
+                  </span>
+                  <div className="product-card-price">{p.price} грн</div>
+                </div>
+              </div>
+            </Link>
+          ))}
+        </div>
+      )}
+    </div>
   );
-}
+        }
+
