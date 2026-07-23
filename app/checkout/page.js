@@ -207,5 +207,5 @@ export default function CheckoutPage() {
       </form>
     </div>
   );
-                }
-                  
+          }
+          
