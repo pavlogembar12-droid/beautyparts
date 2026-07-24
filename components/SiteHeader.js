@@ -13,6 +13,8 @@ export default function SiteHeader() {
         <nav className="header-nav">
           <Link href="/">Головна</Link>
           <Link href="/catalog">Каталог</Link>
+          <Link href="/delivery">Доставка</Link>
+          <Link href="/returns">Гарантія</Link>
         </nav>
         <Link href="/cart" className="header-cart">
           🛒 Кошик {totalItems > 0 ? `(${totalItems})` : ''}
