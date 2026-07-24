@@ -404,4 +404,4 @@ footer.site-footer a { color: var(--accent); }
   }
   .catalog-filters { flex-direction: column; }
   .catalog-filters input, .catalog-filters select { min-width: 100%; }
-           }
+  }
