@@ -41,4 +41,4 @@ export default async function BrandPage({ params }) {
       {products.length === 0 && <p>У цього бренду поки немає товарів.</p>}
     </main>
   );
-}
+      }
