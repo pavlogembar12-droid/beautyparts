@@ -1,6 +1,7 @@
   import { notFound } from 'next/navigation';
 import { getAllProducts, getProductBySlug, generateSeo, SITE_URL } from '@/lib/sheets';
 import AddToCartButton from '@/components/AddToCartButton';
+import ProductTabs from '@/components/ProductTabs';
 
 export const dynamic = 'force-dynamic';
 
@@ -114,15 +115,9 @@ export default async function ProductPage({ params }) {
           </div>
         </div>
 
-        {/* ОПИС */}
-        {product.description && (
-          <div className="product-desc">
-            <h2>Опис</h2>
-            <p>{product.description}</p>
-          </div>
-        )}
+        {/* ОПИС / ДОСТАВКА / ГАРАНТІЯ (вкладки) */}
+        <ProductTabs description={product.description} />
       </div>
     </div>
   );
 }
-
