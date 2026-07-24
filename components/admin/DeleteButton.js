@@ -11,7 +11,7 @@ export default function DeleteButton({ id, name }) {
     if (!confirm(`Видалити товар "${name}"?`)) return;
     setLoading(true);
     try {
-      const res = await fetch('/api/admin/products', {
+      const res = await fetch('/api/admin/product', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ action: 'delete', id }),
