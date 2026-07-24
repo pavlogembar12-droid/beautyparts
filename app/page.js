@@ -1,5 +1,8 @@
 import Link from 'next/link';
-import { getAllProducts, getAllCategories, getAllBrands } from '@/lib/sheets';
+import { getAllProducts, getAllCategories, getAllBrands, slugify } from '@/lib/sheets';
+
+// ─── Бренди, яких ще немає в товарах, але їх треба показувати вже зараз ──
+const EXTRA_BRANDS = ['Ga.Ma', 'Jaguar', 'Diva', 'COIFIN', 'SPL'];
 
 // ─── Відгуки (статичні) ──────────────────────────────────
 const REVIEWS = [
@@ -63,6 +66,15 @@ export default async function HomePage() {
     getAllBrands(),
   ]);
 
+  // Додаємо бренди, яких ще немає серед товарів (щоб показувались вже зараз)
+  const knownSlugs = new Set(brands.map((b) => b.slug));
+  const displayBrands = [
+    ...brands,
+    ...EXTRA_BRANDS
+      .filter((name) => !knownSlugs.has(slugify(name)))
+      .map((name) => ({ name, slug: slugify(name) })),
+  ];
+
   const topProducts = products.filter((p) => p.top).slice(0, 8);
   const showProducts = topProducts.length > 0 ? topProducts : products.slice(0, 8);
 
@@ -122,12 +134,12 @@ export default async function HomePage() {
           </section>
         )}
 
-        {/* ── БРЕНДИ (з Sheets) ── */}
-        {brands.length > 0 && (
+        {/* ── БРЕНДИ (з Sheets + додаткові) ── */}
+        {displayBrands.length > 0 && (
           <section style={{ marginBottom: '48px' }}>
             <h2 className="section-title">Бренди</h2>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
-              {brands.map((b) => (
+              {displayBrands.map((b) => (
                 <Link
                   key={b.slug}
                   href={`/brand/${b.slug}`}
@@ -250,5 +262,4 @@ export default async function HomePage() {
       </div>
     </>
   );
-          }
-          
+}
