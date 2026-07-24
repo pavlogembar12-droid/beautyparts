@@ -36,7 +36,7 @@ export default function CheckoutPage() {
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
   const [delivery, setDelivery] = useState({ city: '', warehouse: '' });
-  const [payMethod, setPayMethod] = useState('card');
+  const [payMethod, setPayMethod] = useState('');
   const [cardChoice, setCardChoice] = useState('mono');
   const [comment, setComment] = useState('');
   const [noCall, setNoCall] = useState(false);
@@ -54,11 +54,18 @@ export default function CheckoutPage() {
 
   async function handleSubmit(e) {
     e.preventDefault();
+
+    if (!payMethod) {
+      setError('Оберіть спосіб оплати.');
+      return;
+    }
+
     setSubmitting(true);
     setError('');
     const payLabel =
       payMethod === 'cash' ? 'Накладений платіж' :
       payMethod === 'qr' ? 'QR-код НБУ' :
+      payMethod === 'account' ? 'Оплата на рахунок ФОП' :
       cardChoice === 'mono' ? 'Переказ на Monobank' : 'Переказ на ПриватБанк';
 
     try {
@@ -140,6 +147,7 @@ export default function CheckoutPage() {
             { id: 'card', label: '💳 Переказ на картку', desc: 'Monobank або ПриватБанк' },
             { id: 'cash', label: '💵 Накладений платіж', desc: '+2% та 20 грн комісії НП' },
             { id: 'qr', label: '📱 QR-код (НБУ)', desc: 'Будь-який банк через Pay' },
+            { id: 'account', label: '🏦 Безготівковий розрахунок', desc: 'Оплата на рахунок ФОП' },
           ].map(opt => (
             <div key={opt.id} onClick={() => setPayMethod(opt.id)} style={{ ...s.radio, ...(payMethod === opt.id ? s.radioActive : {}) }}>
               <div style={{ width: 20, height: 20, borderRadius: '50%', border: `2px solid ${payMethod === opt.id ? '#1a1a1a' : '#ccc'}`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
@@ -152,7 +160,7 @@ export default function CheckoutPage() {
             </div>
           ))}
 
-          {/* КАРТКИ */}
+          {/* КАРТКИ — з'являються тільки після вибору цього способу */}
           {payMethod === 'card' && (
             <div style={s.cardBox}>
               {[
@@ -182,6 +190,15 @@ export default function CheckoutPage() {
                 <div style={{ fontSize: '13px', color: '#888', marginBottom: 8 }}>Відскануйте камерою або відкрийте посилання у банківському застосунку</div>
                 <a href={NBU_QR_LINK} target="_blank" rel="noopener noreferrer" style={{ fontSize: '13px', color: '#1a1a1a', fontWeight: 700, textDecoration: 'underline' }}>Відкрити посилання →</a>
               </div>
+            </div>
+          )}
+
+          {/* ФОП */}
+          {payMethod === 'account' && (
+            <div style={s.cardBox}>
+              <p style={{ fontSize: '13px', color: '#666', margin: 0 }}>
+                Реквізити для безготівкового розрахунку надішле менеджер після підтвердження замовлення.
+              </p>
             </div>
           )}
         </div>
