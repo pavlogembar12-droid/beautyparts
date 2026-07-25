@@ -2,8 +2,6 @@ import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { getAllBrands, getProductsByBrand } from '@/lib/sheets';
 
-export const dynamic = 'force-dynamic';
-
 export async function generateMetadata({ params }) {
   const brands = await getAllBrands();
   const brand = brands.find((b) => b.slug === params.slug);
