@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { getAllProducts, getAllCategories, getAllBrands, slugify } from '@/lib/sheets';
+import { getAllProducts, getCategoryTree, getAllBrands, slugify } from '@/lib/sheets';
 
 // Бренди, які показуємо додатково, навіть якщо в них ще немає товарів
 const EXTRA_BRANDS = [];
@@ -62,9 +62,9 @@ const WHY = [
 
 // ─── Головна сторінка ────────────────────────────────────
 export default async function HomePage() {
-  const [products, categories, brands] = await Promise.all([
+  const [products, categoryTree, brands] = await Promise.all([
     getAllProducts(),
-    getAllCategories(),
+    getCategoryTree(),
     getAllBrands(),
   ]);
 
@@ -120,12 +120,12 @@ export default async function HomePage() {
 
       <div className="page-wrapper">
 
-        {/* ── КАТЕГОРІЇ (з Sheets) ── */}
-        {categories.length > 0 && (
+        {/* ── КАТЕГОРІЇ (з Sheets, тільки верхній рівень) ── */}
+        {categoryTree.length > 0 && (
           <section>
             <h2 className="section-title">Категорії</h2>
             <div className="cat-grid">
-              {categories.map((c) => (
+              {categoryTree.map((c) => (
                 <Link key={c.slug} href={`/category/${c.slug}`} className="cat-card">
                   <div className="cat-card-icon">{c.icon || '📦'}</div>
                   <div className="cat-card-name">{c.name}</div>
@@ -265,4 +265,3 @@ export default async function HomePage() {
   );
           }
 
-          
