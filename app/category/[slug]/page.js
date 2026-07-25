@@ -23,12 +23,41 @@ export default async function CategoryPage({ params }) {
   const category = categories.find((c) => c.slug === params.slug);
   if (!category) notFound();
 
+  // Підкатегорії цієї категорії (якщо вона верхнього рівня)
+  const children = categories.filter((c) => c.parent === category.slug);
+  // Якщо ми самі є підкатегорією — знайдемо "батька" для хлібних крихт
+  const parent = category.parent ? categories.find((c) => c.slug === category.parent) : null;
+
   const products = await getProductsByCategory(params.slug);
 
   return (
     <main>
-      <nav><a href="/">Головна</a> / {category.name}</nav>
+      <nav>
+        <a href="/">Головна</a>
+        {parent && (
+          <>
+            {' / '}
+            <a href={`/category/${parent.slug}`}>{parent.name}</a>
+          </>
+        )}
+        {' / '}
+        {category.name}
+      </nav>
       <h1>{category.name}</h1>
+
+      {children.length > 0 && (
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px', margin: '16px 0 24px' }}>
+          {children.map((c) => (
+            <Link
+              key={c.slug}
+              href={`/category/${c.slug}`}
+              style={{ background: '#fff', border: '1.5px solid #e0e0e0', borderRadius: '20px', padding: '8px 20px', fontWeight: 600, fontSize: '0.9rem', color: '#1a1a1a', textDecoration: 'none' }}
+            >
+              {c.icon ? `${c.icon} ` : ''}{c.name}
+            </Link>
+          ))}
+        </div>
+      )}
 
       <ul>
         {products.map((p) => (
@@ -41,4 +70,4 @@ export default async function CategoryPage({ params }) {
       {products.length === 0 && <p>У цій категорії поки немає товарів.</p>}
     </main>
   );
-}
+      }
