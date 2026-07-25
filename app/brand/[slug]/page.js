@@ -2,10 +2,7 @@ import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { getAllBrands, getProductsByBrand } from '@/lib/sheets';
 
-export async function generateStaticParams() {
-  const brands = await getAllBrands();
-  return brands.map((b) => ({ slug: b.slug }));
-}
+export const dynamic = 'force-dynamic';
 
 export async function generateMetadata({ params }) {
   const brands = await getAllBrands();
