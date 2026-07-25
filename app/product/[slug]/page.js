@@ -26,6 +26,18 @@ export default async function ProductPage({ params }) {
   if (!product) notFound();
   const seo = generateSeo(product);
 
+  // "Ширина ножа: 40 мм" (з нового рядка) → [{ label: 'Ширина ножа', value: '40 мм' }, ...]
+  const specs = (product.features || '')
+    .split('\n')
+    .map((line) => line.trim())
+    .filter(Boolean)
+    .map((line) => {
+      const idx = line.indexOf(':');
+      return idx === -1
+        ? { label: line, value: '' }
+        : { label: line.slice(0, idx).trim(), value: line.slice(idx + 1).trim() };
+    });
+
   return (
     <div className="page-wrapper">
       <nav className="breadcrumb">
@@ -95,6 +107,12 @@ export default async function ProductPage({ params }) {
                 <a href={`/category/${product.categorySlug}`} className="product-meta-value">{product.category}</a>
               </div>
             )}
+            {specs.map((s) => (
+              <div className="product-meta-row" key={s.label}>
+                <span className="product-meta-label">{s.label}:</span>
+                <span className="product-meta-value">{s.value}</span>
+              </div>
+            ))}
           </div>
 
           {product.inStock && (
