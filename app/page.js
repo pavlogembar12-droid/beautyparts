@@ -1,8 +1,10 @@
 import Link from 'next/link';
 import { getAllProducts, getAllCategories, getAllBrands, slugify } from '@/lib/sheets';
 
-// ─── Бренди, яких ще немає в товарах, але їх треба показувати вже зараз ──
-const EXTRA_BRANDS = ['Ga.Ma', 'Jaguar', 'Diva', 'COIFIN', 'SPL'];
+// Бренди, які показуємо додатково, навіть якщо в них ще немає товарів
+const EXTRA_BRANDS = [];
+// Бренди, які НЕ показуємо в блоці "Бренди" на головній
+const HIDDEN_BRAND_SLUGS = [slugify('Універсальний')];
 
 // ─── Відгуки (статичні) ──────────────────────────────────
 const REVIEWS = [
@@ -66,10 +68,9 @@ export default async function HomePage() {
     getAllBrands(),
   ]);
 
-  // Додаємо бренди, яких ще немає серед товарів (щоб показувались вже зараз)
   const knownSlugs = new Set(brands.map((b) => b.slug));
   const displayBrands = [
-    ...brands,
+    ...brands.filter((b) => !HIDDEN_BRAND_SLUGS.includes(b.slug)),
     ...EXTRA_BRANDS
       .filter((name) => !knownSlugs.has(slugify(name)))
       .map((name) => ({ name, slug: slugify(name) })),
@@ -134,7 +135,7 @@ export default async function HomePage() {
           </section>
         )}
 
-        {/* ── БРЕНДИ (з Sheets + додаткові) ── */}
+        {/* ── БРЕНДИ (з Sheets) ── */}
         {displayBrands.length > 0 && (
           <section style={{ marginBottom: '48px' }}>
             <h2 className="section-title">Бренди</h2>
@@ -262,4 +263,6 @@ export default async function HomePage() {
       </div>
     </>
   );
-}
+          }
+
+          
