@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import {
   searchProducts,
-  getAllCategories,
+  getCategoryTree,
   getAllBrands,
   getAllModels,
 } from '@/lib/sheets';
@@ -19,9 +19,9 @@ export default async function CatalogPage({ searchParams }) {
     model: searchParams.model || '',
   };
 
-  const [products, categories, brands, models] = await Promise.all([
+  const [products, categoryTree, brands, models] = await Promise.all([
     searchProducts(filters),
-    getAllCategories(),
+    getCategoryTree(),
     getAllBrands(),
     getAllModels(),
   ]);
@@ -45,8 +45,15 @@ export default async function CatalogPage({ searchParams }) {
         />
         <select name="category" defaultValue={filters.category}>
           <option value="">Усі категорії</option>
-          {categories.map((c) => (
-            <option key={c.slug} value={c.slug}>{c.name}</option>
+          {categoryTree.map((c) => (
+            <optgroup key={c.slug} label={`${c.icon ? c.icon + ' ' : ''}${c.name}`}>
+              <option value={c.slug}>Усі в «{c.name}»</option>
+              {c.children.map((child) => (
+                <option key={child.slug} value={child.slug}>
+                  {'— ' + child.name}
+                </option>
+              ))}
+            </optgroup>
           ))}
         </select>
         <select name="brand" defaultValue={filters.brand}>
@@ -97,3 +104,4 @@ export default async function CatalogPage({ searchParams }) {
   );
         }
 
+            
