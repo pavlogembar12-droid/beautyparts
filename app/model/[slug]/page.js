@@ -2,8 +2,6 @@ import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { getAllModels, getProductsByModel } from '@/lib/sheets';
 
-export const dynamic = 'force-dynamic';
-
 export async function generateMetadata({ params }) {
   const models = await getAllModels();
   const model = models.find((m) => m.slug === params.slug);
