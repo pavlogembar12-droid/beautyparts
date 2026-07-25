@@ -2,10 +2,7 @@ import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { getAllCategories, getProductsByCategory } from '@/lib/sheets';
 
-export async function generateStaticParams() {
-  const categories = await getAllCategories();
-  return categories.map((c) => ({ slug: c.slug }));
-}
+export const dynamic = 'force-dynamic';
 
 export async function generateMetadata({ params }) {
   const categories = await getAllCategories();
