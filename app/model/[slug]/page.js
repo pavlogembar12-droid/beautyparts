@@ -2,10 +2,7 @@ import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { getAllModels, getProductsByModel } from '@/lib/sheets';
 
-export async function generateStaticParams() {
-  const models = await getAllModels();
-  return models.map((m) => ({ slug: m.slug }));
-}
+export const dynamic = 'force-dynamic';
 
 export async function generateMetadata({ params }) {
   const models = await getAllModels();
@@ -41,4 +38,4 @@ export default async function ModelPage({ params }) {
       {products.length === 0 && <p>Для цієї моделі поки немає товарів у каталозі.</p>}
     </main>
   );
-}
+      }
