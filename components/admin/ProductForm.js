@@ -16,6 +16,7 @@ const emptyProduct = {
   description: '',
   inStock: true,
   top: false,
+  features: '',
   slug: '',
   seoTitle: '',
   seoDescription: '',
@@ -199,6 +200,16 @@ export default function ProductForm({ initialProduct, categories, models }) {
         </label>
 
         <label>
+          Характеристики (кожна з нового рядка, формат "Назва: значення")
+          <textarea
+            value={product.features}
+            onChange={(e) => handleChange('features', e.target.value)}
+            rows={4}
+            placeholder={'Ширина ножа: 40 мм\nВисота зрізу: 0,3 мм'}
+          />
+        </label>
+
+        <label>
           <input
             type="checkbox"
             checked={product.inStock}
@@ -276,4 +287,4 @@ export default function ProductForm({ initialProduct, categories, models }) {
       )}
     </form>
   );
-}
+              }
