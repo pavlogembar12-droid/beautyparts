@@ -126,7 +126,7 @@ export default async function ProductPage({ params }) {
             />
           )}
 
-          <div style={{ marginTop: '16px', padding: '14px', background: '#f9f6f0', borderRadius: '8px', fontSize: '0.85rem', color: '#666' }}>
+          <div style={{ marginTop: '16px', padding: '14px', background: 'var(--surface-2)', border: '1px solid var(--border)', borderRadius: '8px', fontSize: '0.85rem', color: 'var(--text-dim)' }}>
             📦 Доставка Новою Поштою по всій Україні<br />
             🚀 Відправка в день замовлення (до 14:00)<br />
             ✅ Гарантія 365 днів
