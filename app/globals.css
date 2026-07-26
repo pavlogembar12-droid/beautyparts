@@ -451,27 +451,16 @@ footer.site-footer a { color: var(--accent); }
 .site-layout:has(.admin-page) .site-sidebar { display: none; }
 
 @media (max-width: 900px) {
-  .site-layout { display: block; }
-  .site-sidebar {
-    position: static;
-    width: auto;
-    height: auto;
-    border-right: none;
-    border-bottom: 1px solid var(--border);
-    padding: 14px 16px;
-    display: flex;
-    overflow-x: auto;
-    gap: 22px;
-  }
-  .sidebar-section {
-    padding: 0;
-    margin-bottom: 0;
-    border-bottom: none;
-    flex-shrink: 0;
-    white-space: nowrap;
-  }
-  .sidebar-nav-link { padding: 4px 0; }
+  .site-sidebar { width: 180px; }
+  .sidebar-nav-link { font-size: 0.82rem; padding: 6px 0; }
+  .sidebar-heading { font-size: 0.66rem; }
 }
+@media (max-width: 640px) {
+  .site-sidebar { width: 130px; padding: 16px 0; }
+  .sidebar-section { padding: 0 10px 12px; margin-bottom: 12px; }
+  .sidebar-nav-link { font-size: 0.78rem; }
+}
+
 
 /* ===== BRAND / CATEGORY HERO ===== */
 .entity-hero {
