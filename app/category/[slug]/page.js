@@ -18,51 +18,69 @@ export default async function CategoryPage({ params }) {
   const category = categories.find((c) => c.slug === params.slug);
   if (!category) notFound();
 
-  // Підкатегорії цієї категорії (якщо вона верхнього рівня)
   const children = categories.filter((c) => c.parent === category.slug);
-  // Якщо ми самі є підкатегорією — знайдемо "батька" для хлібних крихт
   const parent = category.parent ? categories.find((c) => c.slug === category.parent) : null;
 
   const products = await getProductsByCategory(params.slug);
 
   return (
-    <main>
-      <nav>
+    <div className="page-wrapper">
+      <div className="breadcrumb">
         <a href="/">Головна</a>
         {parent && (
           <>
-            {' / '}
+            <span>/</span>
             <a href={`/category/${parent.slug}`}>{parent.name}</a>
           </>
         )}
-        {' / '}
-        {category.name}
-      </nav>
-      <h1>{category.name}</h1>
+        <span>/</span>
+        <span>{category.name}</span>
+      </div>
+
+      <div className="entity-hero">
+        <div className="entity-mark">{category.icon || '📦'}</div>
+        <div>
+          <h1>{category.name}</h1>
+          <p>{products.length} {products.length === 1 ? 'товар' : 'товарів'} у цій категорії</p>
+        </div>
+      </div>
 
       {children.length > 0 && (
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px', margin: '16px 0 24px' }}>
+        <div className="entity-subcats">
           {children.map((c) => (
-            <Link
-              key={c.slug}
-              href={`/category/${c.slug}`}
-              style={{ background: '#fff', border: '1.5px solid #e0e0e0', borderRadius: '20px', padding: '8px 20px', fontWeight: 600, fontSize: '0.9rem', color: '#1a1a1a', textDecoration: 'none' }}
-            >
+            <Link key={c.slug} href={`/category/${c.slug}`} className="entity-subcat-pill">
               {c.icon ? `${c.icon} ` : ''}{c.name}
             </Link>
           ))}
         </div>
       )}
 
-      <ul>
-        {products.map((p) => (
-          <li key={p.id || p.slug}>
-            <Link href={`/product/${p.slug}`}>{p.name}</Link> — {p.price} грн
-          </li>
-        ))}
-      </ul>
-
-      {products.length === 0 && <p>У цій категорії поки немає товарів.</p>}
-    </main>
+      {products.length > 0 ? (
+        <div className="product-grid">
+          {products.map((p) => (
+            <Link key={p.id || p.slug} href={`/product/${p.slug}`} style={{ textDecoration: 'none' }}>
+              <div className="product-card">
+                {p.image ? (
+                  <img className="product-card-img" src={p.image} alt={p.name} />
+                ) : (
+                  <div className="product-card-img-placeholder">{p.emoji || '📦'}</div>
+                )}
+                <div className="product-card-body">
+                  <span className={`product-card-badge ${p.inStock ? '' : 'out'}`}>
+                    {p.inStock ? 'В наявності' : 'Немає в наявності'}
+                  </span>
+                  <div className="product-card-name">{p.name}</div>
+                  <div className="product-card-price">{p.price} грн</div>
+                </div>
+              </div>
+            </Link>
+          ))}
+        </div>
+      ) : (
+        <div className="empty-state">
+          <h2>У цій категорії поки немає товарів</h2>
+        </div>
+      )}
+    </div>
   );
-      }
+                        }
