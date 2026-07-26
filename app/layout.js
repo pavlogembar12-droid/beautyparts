@@ -1,6 +1,6 @@
-
 import { CartProvider } from '@/context/CartContext';
 import SiteHeader from '@/components/SiteHeader';
+import SiteSidebar from '@/components/SiteSidebar';
 import './globals.css';
 
 export const metadata = {
@@ -15,13 +15,23 @@ export default function RootLayout({ children }) {
       <body>
         <CartProvider>
           <SiteHeader />
-          {children}
+
+          {/* site-layout: sidebar + main. На адмін-сторінках sidebar ховається через .admin-page */}
+          <div className="site-layout">
+            <SiteSidebar />
+            <div className="site-main">
+              {children}
+            </div>
+          </div>
+
           <footer className="site-footer">
             <p>© 2026 Beauty Parts — запчастини для техніки краси. Доставка по Україні.</p>
             <p style={{ marginTop: '6px' }}>
               <a href="tel:+380965407076">+380 (96) 540-70-76</a>
               {' · '}
               <a href="https://t.me/liga_krasotu">Telegram</a>
+              {' · '}
+              <a href="viber://chat?number=%2B380965407076">Viber</a>
             </p>
           </footer>
         </CartProvider>
