@@ -1,39 +1,39 @@
-// app/returns/page.js
-export const metadata = {
-  title: "Обмін, повернення та гарантія — BeautyParts",
-  description:
-    "Умови обміну, повернення та гарантії на товари інтернет-магазину BeautyParts відповідно до законодавства України.",
-};
+import Link from 'next/link';
 
-const wrap = {
-  maxWidth: 860,
-  margin: "0 auto",
-  padding: "40px 20px",
-  color: "#e6e6e6",
+export const metadata = {
+  title: "Обмін, повернення та гарантія — Beauty Parts",
+  description:
+    "Умови обміну, повернення та гарантії на товари інтернет-магазину Beauty Parts відповідно до законодавства України.",
 };
 
 const card = {
-  background: "#151a23",
-  border: "1px solid #2a2f3a",
-  borderRadius: 14,
-  padding: "20px 22px",
+  background: 'var(--surface)',
+  border: '1.5px solid var(--border)',
+  borderRadius: 10,
+  padding: 24,
   marginBottom: 16,
 };
 
-const h1 = { fontSize: 28, fontWeight: 700, marginBottom: 24, color: "#fff" };
-const h2 = { fontSize: 18, fontWeight: 700, marginBottom: 10, color: "#f2a900" };
-const p = { fontSize: 15, lineHeight: 1.6, color: "#c7ccd6", margin: "0 0 10px" };
-const ul = { margin: "8px 0 0", paddingLeft: 18, color: "#c7ccd6", fontSize: 15, lineHeight: 1.7 };
 const note = {
   ...card,
-  background: "#20180a",
-  border: "1px solid #f2a900",
+  background: 'linear-gradient(135deg, rgba(255,122,26,.14), rgba(255,122,26,.04))',
+  border: '1.5px solid rgba(255,122,26,.28)',
 };
+
+const h2 = { fontSize: 16, fontWeight: 700, marginBottom: 12, color: '#FF7A1A' };
+const ul = { margin: '8px 0 0', paddingLeft: 18, color: 'var(--text-dim)', fontSize: 14, lineHeight: 1.75 };
+const p = { fontSize: 14, color: 'var(--text-dim)', lineHeight: 1.75, margin: '0 0 10px' };
 
 export default function ReturnsPage() {
   return (
-    <main style={wrap}>
-      <h1 style={h1}>Обмін, повернення та гарантія</h1>
+    <div className="page-wrapper" style={{ maxWidth: 760 }}>
+      <nav className="breadcrumb">
+        <Link href="/">Головна</Link>
+        <span>/</span>
+        <span>Обмін, повернення та гарантія</span>
+      </nav>
+
+      <h1 className="section-title">Обмін, повернення та гарантія</h1>
 
       <section style={card}>
         <h2 style={h2}>Обмін та повернення</h2>
@@ -48,7 +48,7 @@ export default function ReturnsPage() {
       <section style={card}>
         <h2 style={h2}>Гарантія</h2>
         <p style={p}>
-          На всі товари BeautyParts поширюється гарантія відповідно до вимог чинного
+          На всі товари Beauty Parts поширюється гарантія відповідно до вимог чинного
           законодавства України та умов виробника.
         </p>
         <p style={p}>
@@ -56,7 +56,7 @@ export default function ReturnsPage() {
           експлуатації товару за умови дотримання правил використання.
         </p>
 
-        <p style={{ ...p, fontWeight: 600, color: "#e6e6e6" }}>Гарантія НЕ поширюється на:</p>
+        <p style={{ ...p, fontWeight: 600, color: 'var(--white)' }}>Гарантія НЕ поширюється на:</p>
         <ul style={ul}>
           <li>природний знос деталей і витратних матеріалів</li>
           <li>затуплення ножових блоків і ріжучих елементів у процесі експлуатації</li>
@@ -79,6 +79,6 @@ export default function ReturnsPage() {
           за контактним номером на сайті.
         </p>
       </section>
-    </main>
+    </div>
   );
 }
