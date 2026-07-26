@@ -12,48 +12,93 @@ export const metadata = {
 };
 
 export default async function CatalogPage({ searchParams }) {
-  // ── Парсимо бренди — може бути рядок або масив ──
-  const rawBrand = searchParams.brand;
+  // ── Парсимо поточні фільтри ──────────────────────────
+  const q        = searchParams.q        || '';
+  const category = searchParams.category || '';
+  const model    = searchParams.model    || '';
+
+  // Бренди — може бути рядок або масив
+  const rawBrand     = searchParams.brand;
   const selectedBrands = Array.isArray(rawBrand)
     ? rawBrand
     : rawBrand ? [rawBrand] : [];
 
-  const filters = {
-    q:        searchParams.q        || '',
-    category: searchParams.category || '',
-    brand:    '',   // беремо всі, фільтруємо нижче
-    model:    searchParams.model    || '',
-  };
-
+  // ── Дані з Google Sheets ─────────────────────────────
   const [products, categoryTree, brands, models] = await Promise.all([
-    searchProducts(filters),
+    searchProducts({ q, category, brand: '', model }), // беремо все, фільтруємо нижче
     getCategoryTree(),
     getAllBrands(),
     getAllModels(),
   ]);
 
-  // ── Фільтрація по декількох брендах ──
+  // ── Фільтр по брендах на сервері ────────────────────
   const displayProducts = selectedBrands.length > 0
     ? products.filter((p) => {
-        const pBrandSlug = (p.brandSlug || p.brand || '').toLowerCase().trim();
-        const pBrandName = (p.brand     || '').toLowerCase().trim();
+        const pSlug = (p.brandSlug || p.brand || '').toLowerCase().trim();
+        const pName = (p.brand     || '').toLowerCase().trim();
         return selectedBrands.some(
-          (b) => b === pBrandSlug || b === pBrandName || pBrandSlug.startsWith(b) || pBrandName.startsWith(b)
+          (b) => pSlug === b || pName === b || pSlug.startsWith(b)
         );
       })
     : products;
 
+  // ── Хелпер: будуємо URL для кожного бренд-чіпа ─────
+  // Клік по вибраному бренду — прибирає його
+  // Клік по невибраному — додає
+  function buildBrandUrl(brandSlug) {
+    const isActive = selectedBrands.includes(brandSlug);
+    const newBrands = isActive
+      ? selectedBrands.filter((b) => b !== brandSlug)
+      : [...selectedBrands, brandSlug];
+
+    const params = new URLSearchParams();
+    if (q)        params.set('q',        q);
+    if (category) params.set('category', category);
+    if (model)    params.set('model',    model);
+    newBrands.forEach((b) => params.append('brand', b));
+
+    const qs = params.toString();
+    return `/catalog${qs ? '?' + qs : ''}`;
+  }
+
+  // URL для кнопки "Всі" — прибирає всі бренди
+  function clearBrandsUrl() {
+    const params = new URLSearchParams();
+    if (q)        params.set('q',        q);
+    if (category) params.set('category', category);
+    if (model)    params.set('model',    model);
+    const qs = params.toString();
+    return `/catalog${qs ? '?' + qs : ''}`;
+  }
+
+  // Стилі для чіпів
+  const chipBase = {
+    flexShrink: 0,
+    display: 'inline-flex',
+    alignItems: 'center',
+    padding: '7px 16px',
+    borderRadius: '100px',
+    fontSize: '0.88rem',
+    fontWeight: 600,
+    textDecoration: 'none',
+    whiteSpace: 'nowrap',
+    transition: 'all 0.15s',
+  };
+  const chipActive = {
+    ...chipBase,
+    border: '2px solid #c8a96e',
+    background: 'rgba(200,169,110,0.15)',
+    color: '#a8893e',
+  };
+  const chipInactive = {
+    ...chipBase,
+    border: '1.5px solid #e0e0e0',
+    background: '#fff',
+    color: '#1a1a1a',
+  };
+
   return (
     <div className="page-wrapper">
-      {/* Автосабміт форми при зміні чекбоксу */}
-      <script dangerouslySetInnerHTML={{ __html: `
-        document.addEventListener('DOMContentLoaded', function() {
-          document.querySelectorAll('.brand-chip-input').forEach(function(cb) {
-            cb.addEventListener('change', function() { cb.closest('form').submit(); });
-          });
-        });
-      `}} />
-
       <nav className="breadcrumb">
         <Link href="/">Головна</Link>
         <span>/</span>
@@ -62,164 +107,129 @@ export default async function CatalogPage({ searchParams }) {
 
       <h1 style={{ fontSize: '1.6rem', fontWeight: 800, marginBottom: '24px' }}>Каталог товарів</h1>
 
-      <form method="get" action="/catalog">
-        {/* ── Пошук + категорія + модель ── */}
-        <div className="catalog-filters" style={{ marginBottom: '12px' }}>
-          <input
-            type="text"
-            name="q"
-            placeholder="🔍 Пошук товару..."
-            defaultValue={filters.q}
-          />
-          <select name="category" defaultValue={filters.category}>
-            <option value="">Усі категорії</option>
-            {categoryTree.map((c) => (
-              <optgroup key={c.slug} label={`${c.icon ? c.icon + ' ' : ''}${c.name}`}>
-                <option value={c.slug}>Усі в «{c.name}»</option>
-                {c.children.map((child) => (
-                  <option key={child.slug} value={child.slug}>
-                    {'— ' + child.name}
-                  </option>
-                ))}
-              </optgroup>
-            ))}
-          </select>
-          <select name="model" defaultValue={filters.model}>
-            <option value="">Усі моделі</option>
-            {models.map((m) => (
-              <option key={m.slug} value={m.slug}>{m.name}</option>
-            ))}
-          </select>
-          <button type="submit" className="btn-primary">Знайти</button>
-        </div>
+      {/* ── Пошук + категорія + модель (форма) ── */}
+      {/* Приховані інпути зберігають вибрані бренди при пошуку */}
+      <form method="get" action="/catalog" className="catalog-filters" style={{ marginBottom: '12px' }}>
+        <input
+          type="text"
+          name="q"
+          placeholder="🔍 Пошук товару..."
+          defaultValue={q}
+        />
+        <select name="category" defaultValue={category}>
+          <option value="">Усі категорії</option>
+          {categoryTree.map((c) => (
+            <optgroup key={c.slug} label={`${c.icon ? c.icon + ' ' : ''}${c.name}`}>
+              <option value={c.slug}>Усі в «{c.name}»</option>
+              {c.children.map((child) => (
+                <option key={child.slug} value={child.slug}>
+                  {'— ' + child.name}
+                </option>
+              ))}
+            </optgroup>
+          ))}
+        </select>
+        <select name="model" defaultValue={model}>
+          <option value="">Усі моделі</option>
+          {models.map((m) => (
+            <option key={m.slug} value={m.slug}>{m.name}</option>
+          ))}
+        </select>
 
-        {/* ── Бренди — горизонтальна карусель з мультивибором ── */}
-        {brands.length > 0 && (
-          <div style={{
-            background: '#fff',
-            border: '1px solid #e0e0e0',
-            borderRadius: '8px',
-            padding: '12px 14px',
-            marginBottom: '20px',
-          }}>
-            <div style={{ fontSize: '0.78rem', color: '#666', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '10px' }}>
-              Бренд {selectedBrands.length > 0 && <span style={{ color: '#a8893e' }}>· вибрано {selectedBrands.length}</span>}
-            </div>
+        {/* Зберігаємо поточні бренди при сабміті форми */}
+        {selectedBrands.map((b) => (
+          <input key={b} type="hidden" name="brand" value={b} />
+        ))}
 
-            {/* Карусель — горизонтальний скрол */}
-            <div style={{
-              display: 'flex',
-              gap: '8px',
-              overflowX: 'auto',
-              paddingBottom: '4px',
-              scrollbarWidth: 'none', /* Firefox */
-              msOverflowStyle: 'none', /* IE */
-            }}>
-
-              {/* Чіп "Всі" */}
-              <a
-                href={`/catalog?q=${filters.q}&category=${filters.category}&model=${filters.model}`}
-                style={{
-                  flexShrink: 0,
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  padding: '7px 16px',
-                  borderRadius: '100px',
-                  border: selectedBrands.length === 0 ? '2px solid #1a1a1a' : '1.5px solid #e0e0e0',
-                  background: selectedBrands.length === 0 ? '#1a1a1a' : '#fff',
-                  color: selectedBrands.length === 0 ? '#fff' : '#666',
-                  fontSize: '0.88rem',
-                  fontWeight: 700,
-                  textDecoration: 'none',
-                  whiteSpace: 'nowrap',
-                }}
-              >
-                Всі
-              </a>
-
-              {/* Чіп для кожного бренду */}
-              {brands.map((b) => {
-                const isChecked = selectedBrands.includes(b.slug);
-                return (
-                  <label
-                    key={b.slug}
-                    style={{
-                      flexShrink: 0,
-                      display: 'inline-flex',
-                      alignItems: 'center',
-                      gap: '5px',
-                      padding: '7px 16px',
-                      borderRadius: '100px',
-                      border: isChecked ? '2px solid #c8a96e' : '1.5px solid #e0e0e0',
-                      background: isChecked ? 'rgba(200,169,110,0.15)' : '#fff',
-                      color: isChecked ? '#a8893e' : '#1a1a1a',
-                      fontSize: '0.88rem',
-                      fontWeight: 600,
-                      cursor: 'pointer',
-                      userSelect: 'none',
-                      whiteSpace: 'nowrap',
-                    }}
-                  >
-                    <input
-                      className="brand-chip-input"
-                      type="checkbox"
-                      name="brand"
-                      value={b.slug}
-                      defaultChecked={isChecked}
-                      style={{ position: 'absolute', opacity: 0, width: 0, height: 0 }}
-                    />
-                    {isChecked && <span>✓ </span>}{b.name}
-                  </label>
-                );
-              })}
-            </div>
-
-            {/* Підказка */}
-            <div style={{ fontSize: '0.75rem', color: '#aaa', marginTop: '8px' }}>
-              👆 Можна вибрати кілька брендів одночасно
-            </div>
-          </div>
-        )}
+        <button type="submit" className="btn-primary">Знайти</button>
       </form>
 
-      {/* ── Активні фільтри (бейджі) ── */}
-      {(filters.q || filters.category || filters.model || selectedBrands.length > 0) && (
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', marginBottom: '16px', alignItems: 'center' }}>
-          <span style={{ fontSize: '0.82rem', color: '#666' }}>Активні фільтри:</span>
-          {filters.q && (
-            <span style={chipStyle}>🔍 {filters.q}</span>
-          )}
+      {/* ── Бренди — горизонтальна карусель (ТІЛЬКИ ПОСИЛАННЯ, без форми) ── */}
+      {brands.length > 0 && (
+        <div style={{
+          background: '#fff',
+          border: '1px solid #e0e0e0',
+          borderRadius: '8px',
+          padding: '12px 14px',
+          marginBottom: '20px',
+        }}>
+          <div style={{ fontSize: '0.75rem', color: '#999', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '10px' }}>
+            Бренд{selectedBrands.length > 0 && (
+              <span style={{ color: '#a8893e', marginLeft: '6px' }}>
+                · вибрано {selectedBrands.length}
+              </span>
+            )}
+          </div>
+
+          {/* Карусель */}
+          <div style={{
+            display: 'flex',
+            gap: '8px',
+            overflowX: 'auto',
+            paddingBottom: '2px',
+          }}>
+            {/* Чіп "Всі" */}
+            <a
+              href={clearBrandsUrl()}
+              style={
+                selectedBrands.length === 0
+                  ? { ...chipBase, border: '2px solid #1a1a1a', background: '#1a1a1a', color: '#fff' }
+                  : { ...chipInactive, color: '#666' }
+              }
+            >
+              Всі
+            </a>
+
+            {/* Чіп для кожного бренду */}
+            {brands.map((b) => {
+              const isActive = selectedBrands.includes(b.slug);
+              return (
+                <a
+                  key={b.slug}
+                  href={buildBrandUrl(b.slug)}
+                  style={isActive ? chipActive : chipInactive}
+                >
+                  {isActive && '✓ '}{b.name}
+                </a>
+              );
+            })}
+          </div>
+
+          <div style={{ fontSize: '0.72rem', color: '#bbb', marginTop: '8px' }}>
+            Можна вибрати кілька брендів — листайте вправо
+          </div>
+        </div>
+      )}
+
+      {/* ── Активні фільтри ── */}
+      {(q || category || model || selectedBrands.length > 0) && (
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', marginBottom: '16px', alignItems: 'center' }}>
+          <span style={{ fontSize: '0.8rem', color: '#999' }}>Фільтри:</span>
+          {q && <span style={tagStyle}>🔍 {q}</span>}
           {selectedBrands.map((b) => {
             const brand = brands.find((br) => br.slug === b);
-            return (
-              <span key={b} style={{ ...chipStyle, background: 'rgba(200,169,110,0.13)', borderColor: '#c8a96e', color: '#a8893e' }}>
-                🔹 {brand?.name || b}
-              </span>
-            );
+            return <span key={b} style={{ ...tagStyle, background: 'rgba(200,169,110,0.12)', color: '#a8893e', border: '1px solid #c8a96e' }}>🔹 {brand?.name || b}</span>;
           })}
-          {filters.model && (
-            <span style={chipStyle}>📋 {models.find((m) => m.slug === filters.model)?.name || filters.model}</span>
-          )}
-          <Link
-            href="/catalog"
-            style={{ fontSize: '0.82rem', color: '#c0392b', fontWeight: 600, marginLeft: '4px' }}
-          >
+          {model && <span style={tagStyle}>📋 {models.find((m) => m.slug === model)?.name || model}</span>}
+          <Link href="/catalog" style={{ fontSize: '0.8rem', color: '#c0392b', fontWeight: 600 }}>
             Очистити все
           </Link>
         </div>
       )}
 
+      {/* ── Кількість товарів ── */}
       <p className="catalog-count">
-        Знайдено товарів: <strong>{displayProducts.length}</strong>
-        {products.length !== displayProducts.length && (
-          <span style={{ color: '#666', fontWeight: 400 }}> (з {products.length})</span>
+        Знайдено: <strong>{displayProducts.length}</strong>
+        {selectedBrands.length > 0 && products.length !== displayProducts.length && (
+          <span style={{ color: '#999', fontWeight: 400 }}> з {products.length}</span>
         )}
       </p>
 
+      {/* ── Товари ── */}
       {displayProducts.length === 0 ? (
         <div className="empty-state">
           <h2>Нічого не знайдено</h2>
-          <p>Спробуйте змінити фільтри або <Link href="/catalog" style={{ color: 'var(--accent-dark)' }}>очистити пошук</Link></p>
+          <p>Спробуйте змінити фільтри або <Link href="/catalog">очистити пошук</Link></p>
         </div>
       ) : (
         <div className="product-grid">
@@ -247,16 +257,16 @@ export default async function CatalogPage({ searchParams }) {
   );
 }
 
-// ── Стиль для бейджів активних фільтрів ──
-const chipStyle = {
+// Стиль тегів активних фільтрів
+const tagStyle = {
   display: 'inline-flex',
   alignItems: 'center',
   padding: '3px 10px',
   borderRadius: '100px',
   border: '1px solid #e0e0e0',
   background: '#f5f5f5',
-  fontSize: '0.8rem',
+  fontSize: '0.78rem',
   fontWeight: 600,
-  color: '#444',
+  color: '#555',
 };
-          
+                
