@@ -93,84 +93,91 @@ export default async function CatalogPage({ searchParams }) {
           <button type="submit" className="btn-primary">Знайти</button>
         </div>
 
-        {/* ── Бренди — мультивибір з чіп-чекбоксами ── */}
+        {/* ── Бренди — горизонтальна карусель з мультивибором ── */}
         {brands.length > 0 && (
           <div style={{
             background: '#fff',
             border: '1px solid #e0e0e0',
             borderRadius: '8px',
-            padding: '14px 16px',
+            padding: '12px 14px',
             marginBottom: '20px',
-            display: 'flex',
-            alignItems: 'center',
-            flexWrap: 'wrap',
-            gap: '8px',
           }}>
-            <span style={{ fontSize: '0.85rem', color: '#666', fontWeight: 600, marginRight: '4px', whiteSpace: 'nowrap' }}>
-              Бренд:
-            </span>
+            <div style={{ fontSize: '0.78rem', color: '#666', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '10px' }}>
+              Бренд {selectedBrands.length > 0 && <span style={{ color: '#a8893e' }}>· вибрано {selectedBrands.length}</span>}
+            </div>
 
-            {/* Кнопка "Всі" */}
-            {selectedBrands.length > 0 && (
+            {/* Карусель — горизонтальний скрол */}
+            <div style={{
+              display: 'flex',
+              gap: '8px',
+              overflowX: 'auto',
+              paddingBottom: '4px',
+              scrollbarWidth: 'none', /* Firefox */
+              msOverflowStyle: 'none', /* IE */
+            }}>
+
+              {/* Чіп "Всі" */}
               <a
                 href={`/catalog?q=${filters.q}&category=${filters.category}&model=${filters.model}`}
                 style={{
-                  padding: '5px 14px',
+                  flexShrink: 0,
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  padding: '7px 16px',
                   borderRadius: '100px',
-                  border: '1.5px solid #e0e0e0',
-                  background: '#f5f5f5',
-                  fontSize: '0.83rem',
-                  fontWeight: 600,
-                  color: '#666',
+                  border: selectedBrands.length === 0 ? '2px solid #1a1a1a' : '1.5px solid #e0e0e0',
+                  background: selectedBrands.length === 0 ? '#1a1a1a' : '#fff',
+                  color: selectedBrands.length === 0 ? '#fff' : '#666',
+                  fontSize: '0.88rem',
+                  fontWeight: 700,
                   textDecoration: 'none',
                   whiteSpace: 'nowrap',
                 }}
               >
-                ✕ Скинути
+                Всі
               </a>
-            )}
 
-            {brands.map((b) => {
-              const isChecked = selectedBrands.includes(b.slug);
-              return (
-                <label
-                  key={b.slug}
-                  style={{
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    gap: '5px',
-                    padding: '5px 14px',
-                    borderRadius: '100px',
-                    border: isChecked ? '1.5px solid #c8a96e' : '1.5px solid #e0e0e0',
-                    background: isChecked ? 'rgba(200,169,110,0.13)' : '#fff',
-                    color: isChecked ? '#a8893e' : '#1a1a1a',
-                    fontSize: '0.88rem',
-                    fontWeight: 600,
-                    cursor: 'pointer',
-                    transition: 'all 0.15s',
-                    userSelect: 'none',
-                    whiteSpace: 'nowrap',
-                  }}
-                >
-                  <input
-                    className="brand-chip-input"
-                    type="checkbox"
-                    name="brand"
-                    value={b.slug}
-                    defaultChecked={isChecked}
-                    style={{ position: 'absolute', opacity: 0, width: 0, height: 0 }}
-                  />
-                  {isChecked ? '✓ ' : ''}{b.name}
-                </label>
-              );
-            })}
+              {/* Чіп для кожного бренду */}
+              {brands.map((b) => {
+                const isChecked = selectedBrands.includes(b.slug);
+                return (
+                  <label
+                    key={b.slug}
+                    style={{
+                      flexShrink: 0,
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '5px',
+                      padding: '7px 16px',
+                      borderRadius: '100px',
+                      border: isChecked ? '2px solid #c8a96e' : '1.5px solid #e0e0e0',
+                      background: isChecked ? 'rgba(200,169,110,0.15)' : '#fff',
+                      color: isChecked ? '#a8893e' : '#1a1a1a',
+                      fontSize: '0.88rem',
+                      fontWeight: 600,
+                      cursor: 'pointer',
+                      userSelect: 'none',
+                      whiteSpace: 'nowrap',
+                    }}
+                  >
+                    <input
+                      className="brand-chip-input"
+                      type="checkbox"
+                      name="brand"
+                      value={b.slug}
+                      defaultChecked={isChecked}
+                      style={{ position: 'absolute', opacity: 0, width: 0, height: 0 }}
+                    />
+                    {isChecked && <span>✓ </span>}{b.name}
+                  </label>
+                );
+              })}
+            </div>
 
-            {/* Показуємо скільки вибрано */}
-            {selectedBrands.length > 1 && (
-              <span style={{ fontSize: '0.8rem', color: '#a8893e', fontWeight: 600, marginLeft: '4px' }}>
-                ({selectedBrands.length} бренди)
-              </span>
-            )}
+            {/* Підказка */}
+            <div style={{ fontSize: '0.75rem', color: '#aaa', marginTop: '8px' }}>
+              👆 Можна вибрати кілька брендів одночасно
+            </div>
           </div>
         )}
       </form>
@@ -252,4 +259,4 @@ const chipStyle = {
   fontWeight: 600,
   color: '#444',
 };
-              
+          
