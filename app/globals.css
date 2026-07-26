@@ -161,8 +161,9 @@ header.site-header {
   margin: 0 auto;
   padding: 32px 0 60px;
 }
+.site-main h1,
 .page-wrapper h1 {
-  color: var(--black);
+  color: var(--black) !important;
 }
 /* ===== BREADCRUMB ===== */
 .breadcrumb {
