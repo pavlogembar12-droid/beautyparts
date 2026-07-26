@@ -472,3 +472,50 @@ footer.site-footer a { color: var(--accent); }
   }
   .sidebar-nav-link { padding: 4px 0; }
 }
+
+/* ===== BRAND / CATEGORY HERO ===== */
+.entity-hero {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: radial-gradient(circle at 90% 0%, rgba(255,122,26,0.16) 0%, transparent 60%), var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 24px 26px;
+  margin-bottom: 28px;
+}
+.entity-hero .entity-mark {
+  width: 54px;
+  height: 54px;
+  border-radius: 12px;
+  background: var(--surface-2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.6rem;
+  flex-shrink: 0;
+}
+.entity-hero h1 { font-size: 1.5rem; font-weight: 800; color: var(--white); margin-bottom: 4px; }
+.entity-hero p { font-size: 0.85rem; color: var(--text-dim); }
+
+.entity-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 18px;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.entity-toolbar .entity-count { font-size: 0.85rem; color: var(--text-dim); }
+
+.entity-subcats { display: flex; flex-wrap: wrap; gap: 10px; margin: 0 0 24px; }
+.entity-subcat-pill {
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: 20px;
+  padding: 8px 20px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--text);
+}
+.entity-subcat-pill:hover { border-color: var(--accent); color: var(--accent); }
