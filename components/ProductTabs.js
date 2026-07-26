@@ -22,7 +22,7 @@ export default function ProductTabs({ description }) {
 
   return (
     <div className="product-desc">
-      <div style={{ display: 'flex', gap: 24, borderBottom: '1px solid #e0e0e0', marginBottom: 16 }}>
+      <div style={{ display: 'flex', gap: 24, borderBottom: '1px solid var(--border)', marginBottom: 16 }}>
         {TABS.map((t) => (
           <button
             key={t.id}
@@ -36,8 +36,8 @@ export default function ProductTabs({ description }) {
               fontSize: '0.95rem',
               fontWeight: 700,
               fontFamily: 'inherit',
-              color: active === t.id ? '#c8a96e' : '#666',
-              borderBottom: active === t.id ? '2px solid #c8a96e' : '2px solid transparent',
+              color: active === t.id ? '#FF7A1A' : 'var(--text-dim)',
+              borderBottom: active === t.id ? '2px solid #FF7A1A' : '2px solid transparent',
               marginBottom: '-1px',
             }}
           >
@@ -54,4 +54,4 @@ export default function ProductTabs({ description }) {
     </div>
   );
       }
-       
+
