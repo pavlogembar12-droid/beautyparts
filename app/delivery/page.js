@@ -1,34 +1,33 @@
-// app/delivery/page.js
-export const metadata = {
-  title: "Доставка та оплата — BeautyParts",
-  description:
-    "Умови доставки Новою Поштою (відділення, поштомат, кур'єр) та способи оплати в інтернет-магазині BeautyParts.",
-};
+import Link from 'next/link';
 
-const wrap = {
-  maxWidth: 860,
-  margin: "0 auto",
-  padding: "40px 20px",
-  color: "#e6e6e6",
+export const metadata = {
+  title: "Доставка та оплата — Beauty Parts",
+  description:
+    "Умови доставки Новою Поштою (відділення, поштомат, кур'єр) та способи оплати в інтернет-магазині Beauty Parts.",
 };
 
 const card = {
-  background: "#151a23",
-  border: "1px solid #2a2f3a",
-  borderRadius: 14,
-  padding: "20px 22px",
+  background: 'var(--surface)',
+  border: '1.5px solid var(--border)',
+  borderRadius: 10,
+  padding: 24,
   marginBottom: 16,
 };
 
-const h1 = { fontSize: 28, fontWeight: 700, marginBottom: 24, color: "#fff" };
-const h2 = { fontSize: 18, fontWeight: 700, marginBottom: 10, color: "#f2a900" };
-const p = { fontSize: 15, lineHeight: 1.6, color: "#c7ccd6", margin: 0 };
-const ul = { margin: "8px 0 0", paddingLeft: 18, color: "#c7ccd6", fontSize: 15, lineHeight: 1.7 };
+const h2 = { fontSize: 16, fontWeight: 700, marginBottom: 12, color: '#FF7A1A' };
+const ul = { margin: '8px 0 0', paddingLeft: 18, color: 'var(--text-dim)', fontSize: 14, lineHeight: 1.75 };
+const p = { fontSize: 14, color: 'var(--text-dim)', lineHeight: 1.75, margin: 0 };
 
 export default function DeliveryPage() {
   return (
-    <main style={wrap}>
-      <h1 style={h1}>Доставка та оплата</h1>
+    <div className="page-wrapper" style={{ maxWidth: 760 }}>
+      <nav className="breadcrumb">
+        <Link href="/">Головна</Link>
+        <span>/</span>
+        <span>Доставка та оплата</span>
+      </nav>
+
+      <h1 className="section-title">Доставка та оплата</h1>
 
       <section style={card}>
         <h2 style={h2}>Способи доставки</h2>
@@ -51,10 +50,8 @@ export default function DeliveryPage() {
 
       <section style={card}>
         <h2 style={h2}>Вартість доставки</h2>
-        <p style={p}>
-          Вартість доставки оплачується отримувачем за тарифами Нової Пошти.
-        </p>
-        <p style={{ ...p, marginTop: 10, color: "#f2a900", fontWeight: 600 }}>
+        <p style={p}>Вартість доставки оплачується отримувачем за тарифами Нової Пошти.</p>
+        <p style={{ ...p, marginTop: 10, color: '#FF7A1A', fontWeight: 600 }}>
           Безкоштовна доставка по Україні при замовленні від 3000 грн.
         </p>
       </section>
@@ -67,6 +64,6 @@ export default function DeliveryPage() {
           <li>Безготівковий розрахунок — оплата на рахунок ФОП</li>
         </ul>
       </section>
-    </main>
+    </div>
   );
-            }
+}
