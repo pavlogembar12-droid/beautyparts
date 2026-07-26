@@ -126,7 +126,7 @@ header.site-header {
   color: var(--white);
 }
 .hero h1 em { color: var(--accent); font-style: normal; }
-.hero p { color: var(--text-dim); font-size: 1.05rem; max-width: 500px; }
+.hero p { color: rgba(245,239,230,0.88); font-size: 1.05rem; max-width: 500px; }
 .hero-badges {
   display: flex;
   flex-wrap: wrap;
