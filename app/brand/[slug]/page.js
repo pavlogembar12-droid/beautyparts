@@ -21,19 +21,53 @@ export default async function BrandPage({ params }) {
   const products = await getProductsByBrand(params.slug);
 
   return (
-    <main>
-      <nav><a href="/">Головна</a> / {brand.name}</nav>
-      <h1>{brand.name}</h1>
+    <div className="page-wrapper">
+      <div className="breadcrumb">
+        <a href="/">Головна</a>
+        <span>/</span>
+        <span>{brand.name}</span>
+      </div>
 
-      <ul>
-        {products.map((p) => (
-          <li key={p.id || p.slug}>
-            <Link href={`/product/${p.slug}`}>{p.name}</Link> — {p.price} грн
-          </li>
-        ))}
-      </ul>
+      <div className="entity-hero">
+        <div className="entity-mark">✂️</div>
+        <div>
+          <h1>{brand.name}</h1>
+          <p>Оригінальні запчастини для машинок для стрижки {brand.name} — {products.length} {products.length === 1 ? 'товар' : 'товарів'}</p>
+        </div>
+      </div>
 
-      {products.length === 0 && <p>У цього бренду поки немає товарів.</p>}
-    </main>
+      {products.length > 0 && (
+        <div className="entity-toolbar">
+          <span className="entity-count">Показано {products.length} {products.length === 1 ? 'товар' : 'товарів'}</span>
+        </div>
+      )}
+
+      {products.length > 0 ? (
+        <div className="product-grid">
+          {products.map((p) => (
+            <Link key={p.id || p.slug} href={`/product/${p.slug}`} style={{ textDecoration: 'none' }}>
+              <div className="product-card">
+                {p.image ? (
+                  <img className="product-card-img" src={p.image} alt={p.name} />
+                ) : (
+                  <div className="product-card-img-placeholder">{p.emoji || '📦'}</div>
+                )}
+                <div className="product-card-body">
+                  <span className={`product-card-badge ${p.inStock ? '' : 'out'}`}>
+                    {p.inStock ? 'В наявності' : 'Немає в наявності'}
+                  </span>
+                  <div className="product-card-name">{p.name}</div>
+                  <div className="product-card-price">{p.price} грн</div>
+                </div>
+              </div>
+            </Link>
+          ))}
+        </div>
+      ) : (
+        <div className="empty-state">
+          <h2>У цього бренду поки немає товарів</h2>
+        </div>
+      )}
+    </div>
   );
-      }
+}
