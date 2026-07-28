@@ -8,7 +8,7 @@ export const metadata = {
   description:
     'Запчастини та ножові блоки для машинок для стрижки Wahl, Moser, Andis. Доставка по Україні.',
 };
-
+export const dynamic = 'force-dynamic';
 export default function RootLayout({ children }) {
   return (
     <html lang="uk">
