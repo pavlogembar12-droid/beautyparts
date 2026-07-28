@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { getAllCategories, getAllBrands } from '@/lib/sheets';
+import SidebarShell from './SidebarShell';
 
 export default async function SiteSidebar() {
   const [categories, brands] = await Promise.all([
@@ -8,7 +9,7 @@ export default async function SiteSidebar() {
   ]);
 
   return (
-    <aside className="site-sidebar">
+    <SidebarShell>
 
       {/* ── Головна навігація ── */}
       <div className="sidebar-section">
@@ -51,7 +52,6 @@ export default async function SiteSidebar() {
         <Link href="/contacts" className="sidebar-nav-link">📞 Контакти</Link>
       </div>
 
-    </aside>
+    </SidebarShell>
   );
-                                                  }
-        
+}
