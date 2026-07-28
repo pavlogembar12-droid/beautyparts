@@ -1,46 +1,57 @@
-'use client';
+import Link from 'next/link';
+import { getAllCategories, getAllBrands } from '@/lib/sheets';
+import SidebarShell from './SidebarShell';
 
-import { useState, useEffect } from 'react';
-
-export default function SidebarShell({ children }) {
-  const [open, setOpen] = useState(false);
-
-  // Закриваємо панель при переході на іншу сторінку (клік по посиланню всередині)
-  useEffect(() => {
-    if (!open) return;
-    function onClick(e) {
-      if (e.target.closest('a')) setOpen(false);
-    }
-    const panel = document.getElementById('site-sidebar-panel');
-    panel?.addEventListener('click', onClick);
-    return () => panel?.removeEventListener('click', onClick);
-  }, [open]);
+export default async function SiteSidebar() {
+  const [categories, brands] = await Promise.all([
+    getAllCategories(),
+    getAllBrands(),
+  ]);
 
   return (
-    <>
-      <button
-        type="button"
-        className="sidebar-toggle-btn"
-        onClick={() => setOpen((v) => !v)}
-        aria-label={open ? 'Закрити меню' : 'Відкрити меню'}
-        aria-expanded={open}
-      >
-        ⋮
-      </button>
+    <SidebarShell>
 
-      {open && <div className="sidebar-backdrop" onClick={() => setOpen(false)} />}
+      {/* ── Головна навігація ── */}
+      <div className="sidebar-section">
+        <Link href="/" className="sidebar-nav-link">🏠 Головна</Link>
+        <Link href="/catalog" className="sidebar-nav-link">📦 Весь каталог</Link>
+        <Link href="/catalog?brand=moser" className="sidebar-nav-link sidebar-nav-indent">
+          По моделях Moser
+        </Link>
+      </div>
 
-      <aside id="site-sidebar-panel" className={`site-sidebar ${open ? 'open' : ''}`}>
-        <button
-          type="button"
-          className="sidebar-close-btn"
-          onClick={() => setOpen(false)}
-          aria-label="Закрити меню"
-        >
-          ← Назад
-        </button>
-        {children}
-      </aside>
-    </>
+      {/* ── Категорії (з Sheets) ── */}
+      {categories.length > 0 && (
+        <div className="sidebar-section">
+          <div className="sidebar-heading">Категорії</div>
+          {categories.map((c) => (
+            <Link key={c.slug} href={`/category/${c.slug}`} className="sidebar-nav-link">
+              {c.icon || '📦'} {c.name}
+            </Link>
+          ))}
+        </div>
+      )}
+
+      {/* ── Бренди (з Sheets) ── */}
+      {brands.length > 0 && (
+        <div className="sidebar-section">
+          <div className="sidebar-heading">Бренди</div>
+          {brands.map((b) => (
+            <Link key={b.slug} href={`/brand/${b.slug}`} className="sidebar-nav-link">
+              🔹 {b.name}
+            </Link>
+          ))}
+        </div>
+      )}
+
+      {/* ── Інформація ── */}
+      <div className="sidebar-section">
+        <div className="sidebar-heading">Інформація</div>
+        <Link href="/delivery" className="sidebar-nav-link">🚚 Доставка та оплата</Link>
+        <Link href="/returns"  className="sidebar-nav-link">ℹ️ Про нас</Link>
+        <Link href="/contacts" className="sidebar-nav-link">📞 Контакти</Link>
+      </div>
+
+    </SidebarShell>
   );
 }
