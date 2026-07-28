@@ -497,11 +497,9 @@ footer.site-footer a { color: var(--accent); }
 .sidebar-nav-link:hover { color: var(--accent); }
 .sidebar-nav-indent { padding-left: 14px; font-size: 0.85rem; color: var(--text-dim); }
 
-/* Адмінка керує власним компонуванням — ховаємо кнопку й панель */
+/*/* Адмінка керує власним компонуванням — ховаємо кнопку й панель */
 .site-layout:has(.admin-page) .sidebar-toggle-btn,
 .site-layout:has(.admin-page) .site-sidebar { display: none; }
-
-}
 
 
 /* ===== BRAND / CATEGORY HERO ===== */
