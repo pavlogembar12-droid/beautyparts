@@ -92,12 +92,14 @@ function BladeMark({ style }) {
 
 // ─── Головна сторінка ────────────────────────────────────
 export default async function HomePage() {
-  const [products, categoryTree, brands, models] = await Promise.all([
-    getAllProducts(),
-    getCategoryTree(),
-    getAllBrands(),
-    getAllModels(),
-  ]);
+  // Послідовно, не Promise.all — кожен виклик всередині сам робить
+  // кілька HTTP-запитів до Google Sheets (fetchAllSheets), і паралельний
+  // запуск кількох таких наборів одночасно провокував Google/Next.js
+  // повертати однакову (помилкову) відповідь на різні запити.
+  const products = await getAllProducts();
+  const categoryTree = await getCategoryTree();
+  const brands = await getAllBrands();
+  const models = await getAllModels();
 
   const knownSlugs = new Set(brands.map((b) => b.slug));
   const displayBrands = [
@@ -322,4 +324,5 @@ export default async function HomePage() {
       </div>
     </>
   );
-          }
+                            }
+          
