@@ -1,6 +1,12 @@
 import Link from 'next/link';
 import { getAllProducts, getCategoryTree, getAllBrands, getAllModels, slugify } from '@/lib/sheets';
 
+// Сторінка кешується Next.js статично при білді — без цього revalidate
+// зміни в Google Таблиці (нові категорії, товари) ніколи б не з'явились
+// на головній сторінці без повторного деплою. 300с узгоджено з
+// REVALIDATE_SECONDS у lib/sheets.js.
+export const revalidate = 300;
+
 // Бренди, які показуємо додатково, навіть якщо в них ще немає товарів
 const EXTRA_BRANDS = [];
 // Бренди, які НЕ показуємо в блоці "Бренди" на головній
@@ -316,5 +322,4 @@ export default async function HomePage() {
       </div>
     </>
   );
-    }
-          
+          }
