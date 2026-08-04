@@ -117,7 +117,7 @@ export default async function HomePage() {
       <div className="page-wrapper" style={{ paddingBottom: 0 }}>
         <div className="hero" style={{ position: 'relative' }}>
           <BladeMark style={{ top: '-20px', right: '-30px', width: '360px', opacity: 0.5 }} />
-          <div style={{ position: 'relative', zIndex: 1 }}>
+          <div className="hero-content" style={{ position: 'relative', zIndex: 1 }}>
             <div style={{ fontSize: '11px', fontWeight: 700, letterSpacing: '.12em', textTransform: 'uppercase', color: '#FF7A1A', marginBottom: '14px' }}>
               ✂ Оригінальні запчастини Wahl · Moser · BaByliss PRO · Oster
             </div>
@@ -316,5 +316,5 @@ export default async function HomePage() {
       </div>
     </>
   );
-        }
-        
+    }
+          
