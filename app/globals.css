@@ -127,6 +127,17 @@ header.site-header {
 }
 .hero h1 em { color: var(--accent); font-style: normal; }
 .hero p { color: rgba(245,239,230,0.88); font-size: 1.05rem; max-width: 500px; }
+
+/* Зсуваємо текстовий блок hero ближче до центру на десктопі.
+   На мобільних (нижче 900px) медіа-запит не спрацьовує —
+   верстка лишається такою ж, як була. */
+@media (min-width: 900px) {
+  .hero-content {
+    max-width: 640px;
+    margin-left: 6%;
+  }
+}
+
 .hero-badges {
   display: flex;
   flex-wrap: wrap;
@@ -403,9 +414,9 @@ footer.site-footer a { color: var(--accent); }
   }
   .catalog-filters { flex-direction: column; }
   .catalog-filters input, .catalog-filters select { min-width: 100%; }
-                    }
-               
-/* ==/* ===== SITE LAYOUT (sidebar + main) ===== */
+}
+
+/* ===== SITE LAYOUT (sidebar + main) ===== */
 .site-layout {
   max-width: 1400px;
   margin: 0 auto;
@@ -497,7 +508,7 @@ footer.site-footer a { color: var(--accent); }
 .sidebar-nav-link:hover { color: var(--accent); }
 .sidebar-nav-indent { padding-left: 14px; font-size: 0.85rem; color: var(--text-dim); }
 
-/*/* Адмінка керує власним компонуванням — ховаємо кнопку й панель */
+/* Адмінка керує власним компонуванням — ховаємо кнопку й панель */
 .site-layout:has(.admin-page) .sidebar-toggle-btn,
 .site-layout:has(.admin-page) .site-sidebar { display: none; }
 
