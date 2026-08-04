@@ -14,7 +14,7 @@ const DELIVERY_TEXT = `Нова Пошта — відділення, пошто�
 
 // Розбиває текст по \n і відображає кожен рядок як окремий абзац
 function TextWithParagraphs({ text, empty = 'Інформація поки не додана.' }) {
-  if (!text) return <p style={{ color: '#999' }}>{empty}</p>;
+  if (!text) return <p style={{ color: 'var(--text-dim)' }}>{empty}</p>;
 
   const paragraphs = text
     .split('\n')
@@ -30,7 +30,7 @@ function TextWithParagraphs({ text, empty = 'Інформація поки не 
           return (
             <div key={i} style={{ display: 'flex', gap: 8, marginBottom: 4 }}>
               <span style={{ color: '#FF7A1A', flexShrink: 0, marginTop: 1 }}>▸</span>
-              <span style={{ fontSize: '0.9rem', color: '#444', lineHeight: 1.6 }}>
+              <span style={{ fontSize: '0.9rem', color: 'var(--text)', lineHeight: 1.6 }}>
                 {line.replace(/^[-•]\s*/, '')}
               </span>
             </div>
@@ -40,7 +40,7 @@ function TextWithParagraphs({ text, empty = 'Інформація поки не 
         // Заголовок — рядок що закінчується на : і коротший за 60 символів
         if (line.endsWith(':') && line.length < 60) {
           return (
-            <p key={i} style={{ fontWeight: 700, fontSize: '0.9rem', marginBottom: 4, marginTop: i > 0 ? 12 : 0 }}>
+            <p key={i} style={{ fontWeight: 700, fontSize: '0.9rem', marginBottom: 4, marginTop: i > 0 ? 12 : 0, color: 'var(--white)' }}>
               {line}
             </p>
           );
@@ -48,7 +48,7 @@ function TextWithParagraphs({ text, empty = 'Інформація поки не 
 
         // Звичайний абзац
         return (
-          <p key={i} style={{ fontSize: '0.9rem', color: '#444', lineHeight: 1.7, marginBottom: 6 }}>
+          <p key={i} style={{ fontSize: '0.9rem', color: 'var(--text)', lineHeight: 1.7, marginBottom: 6 }}>
             {line}
           </p>
         );
@@ -92,4 +92,4 @@ export default function ProductTabs({ description }) {
       {active === 'warranty' && <TextWithParagraphs text={WARRANTY_TEXT} />}
     </div>
   );
-                  }
+      }
