@@ -7,9 +7,11 @@ export async function generateMetadata({ params }) {
   const category = categories.find((c) => c.slug === params.slug);
   if (!category) return {};
 
+  // Якщо в таблиці заповнено seoTitle/seoDescription — використовуємо їх.
+  // Якщо порожньо — автогенерація як раніше.
   return {
-    title: `${category.name} — купити в Beauty Parts`,
-    description: `Каталог: ${category.name}. Оригінальні запчастини для машинок для стрижки з доставкою по Україні.`,
+    title: category.seoTitle || `${category.name} — купити в Beauty Parts`,
+    description: category.seoDescription || `Каталог: ${category.name}. Оригінальні запчастини для машинок для стрижки з доставкою по Україні.`,
   };
 }
 
@@ -83,4 +85,4 @@ export default async function CategoryPage({ params }) {
       )}
     </div>
   );
-                        }
+}
