@@ -6,7 +6,38 @@ import './globals.css';
 export const metadata = {
   title: 'Beauty Parts — Запчастини для машинок для стрижки Wahl, Moser',
   description:
-    'Запчастини та ножові блоки для машинок для стрижки Wahl, Moser, Andis. Доставка по Україні.',
+    'Оригінальні запчастини для машинок для стрижки Wahl, Moser, BaByliss PRO, Oster. Ножові блоки, акумулятори, насадки, двигуни. Підбір за фото. Доставка Новою Поштою по всій Україні.',
+  keywords: [
+    'запчастини для машинок для стрижки',
+    'ножові блоки Wahl',
+    'запчастини Moser',
+    'BaByliss PRO запчастини',
+    'акумулятор для машинки',
+    'насадки для стрижки',
+    'Beauty Parts',
+    'купити запчастини машинка стрижки Україна',
+  ],
+  metadataBase: new URL('https://www.beautyparts.com.ua'),
+  alternates: {
+    canonical: 'https://www.beautyparts.com.ua/',
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+    },
+  },
+  openGraph: {
+    title: 'Beauty Parts — Запчастини для машинок для стрижки',
+    description:
+      'Оригінальні запчастини Wahl, Moser, BaByliss PRO, Oster. Підбір за фото. Доставка по Україні.',
+    url: 'https://www.beautyparts.com.ua/',
+    siteName: 'Beauty Parts',
+    locale: 'uk_UA',
+    type: 'website',
+  },
 };
 
 export default async function RootLayout({ children }) {
