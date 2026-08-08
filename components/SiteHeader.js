@@ -49,11 +49,16 @@ export default function SiteHeader({ categories = [], brands = [], models = [] }
           </div>
 
           <nav className="header-nav">
-            <Link href="/">Головна</Link>
-            <Link href="/catalog">Каталог</Link>
-            <Link href="/delivery">Доставка</Link>
-            <Link href="/returns">Гарантія</Link>
-          </nav>
+  <Link href="/">Головна</Link>
+  <Link href="/catalog" style={{
+    color: '#FF7A1A',
+    border: '1.5px solid rgba(255,122,26,0.5)',
+    borderRadius: '6px',
+    padding: '4px 10px',
+  }}>Каталог</Link>
+  <Link href="/delivery">Доставка</Link>
+  <Link href="/returns">Гарантія</Link>
+</nav>
 
           <Link href="/cart" className="header-cart">
             🛒 Кошик {totalItems > 0 ? `(${totalItems})` : ''}
