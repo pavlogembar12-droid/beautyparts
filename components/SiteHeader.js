@@ -49,16 +49,29 @@ export default function SiteHeader({ categories = [], brands = [], models = [] }
           </div>
 
           <nav className="header-nav">
-  <Link href="/">Головна</Link>
-  <Link href="/catalog" style={{
-    color: '#FF7A1A',
-    border: '1.5px solid rgba(255,122,26,0.5)',
-    borderRadius: '6px',
-    padding: '4px 10px',
-  }}>Каталог</Link>
-  <Link href="/delivery">Доставка</Link>
-  <Link href="/returns">Гарантія</Link>
-</nav>
+            <Link href="/">Головна</Link>
+            <Link href="/catalog" style={{
+              color: '#FF7A1A',
+              border: '1.5px solid rgba(255,122,26,0.5)',
+              borderRadius: '6px',
+              padding: '4px 10px',
+            }}>Каталог</Link>
+            <a
+              href="https://t.me/liga_krasotu"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                color: '#FF7A1A',
+                border: '1.5px solid rgba(255,122,26,0.3)',
+                borderRadius: '6px',
+                padding: '4px 10px',
+                background: 'rgba(255,122,26,0.08)',
+                textDecoration: 'none',
+              }}
+            >📷 Підбір за фото</a>
+            <Link href="/delivery">Доставка</Link>
+            <Link href="/returns">Гарантія</Link>
+          </nav>
 
           <Link href="/cart" className="header-cart">
             🛒 Кошик {totalItems > 0 ? `(${totalItems})` : ''}
@@ -104,23 +117,27 @@ export default function SiteHeader({ categories = [], brands = [], models = [] }
         {/* Навігація */}
         <div style={{ padding: '12px 0', borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
           {[
-            { href: '/', label: '🏠 Головна' },
-            { href: '/catalog', label: '📦 Весь каталог' },
-            { href: '/delivery', label: '🚚 Доставка та оплата' },
-            { href: '/returns', label: '✅ Гарантія' },
+            { href: '/', label: '🏠 Головна', external: false },
+            { href: '/catalog', label: '📦 Весь каталог', external: false },
+            { href: 'https://t.me/liga_krasotu', label: '📷 Підбір за фото', external: true },
+            { href: '/delivery', label: '🚚 Доставка та оплата', external: false },
+            { href: '/returns', label: '✅ Гарантія', external: false },
           ].map(item => (
             <Link
               key={item.href}
               href={item.href}
               onClick={closeSidebar}
+              target={item.external ? '_blank' : undefined}
+              rel={item.external ? 'noopener noreferrer' : undefined}
               style={{
                 display: 'block', padding: '11px 20px',
-                color: 'rgba(255,255,255,0.85)', fontSize: '14px',
-                fontWeight: 600, textDecoration: 'none',
+                color: item.external ? '#FF7A1A' : 'rgba(255,255,255,0.85)',
+                fontSize: '14px', fontWeight: 600, textDecoration: 'none',
                 transition: 'background 0.15s',
+                background: item.external ? 'rgba(255,122,26,0.06)' : 'transparent',
               }}
               onMouseEnter={e => e.currentTarget.style.background = 'rgba(255,255,255,0.06)'}
-              onMouseLeave={e => e.currentTarget.style.background = ''}
+              onMouseLeave={e => e.currentTarget.style.background = item.external ? 'rgba(255,122,26,0.06)' : ''}
             >
               {item.label}
             </Link>
@@ -247,4 +264,4 @@ export default function SiteHeader({ categories = [], brands = [], models = [] }
       </div>
     </>
   );
-                          }
+                  }
