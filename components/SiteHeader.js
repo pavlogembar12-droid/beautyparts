@@ -56,10 +56,8 @@ export default function SiteHeader({ categories = [], brands = [], models = [] }
               borderRadius: '6px',
               padding: '4px 10px',
             }}>Каталог</Link>
-            <a
-              href="https://t.me/liga_krasotu"
-              target="_blank"
-              rel="noopener noreferrer"
+            <Link
+              href="/photo-select"
               style={{
                 color: '#FF7A1A',
                 border: '1.5px solid rgba(255,122,26,0.3)',
@@ -68,7 +66,7 @@ export default function SiteHeader({ categories = [], brands = [], models = [] }
                 background: 'rgba(255,122,26,0.08)',
                 textDecoration: 'none',
               }}
-            >📷 Підбір за фото</a>
+            >📷 Підбір за фото</Link>
             <Link href="/delivery">Доставка</Link>
             <Link href="/returns">Гарантія</Link>
           </nav>
@@ -117,27 +115,25 @@ export default function SiteHeader({ categories = [], brands = [], models = [] }
         {/* Навігація */}
         <div style={{ padding: '12px 0', borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
           {[
-            { href: '/', label: '🏠 Головна', external: false },
-            { href: '/catalog', label: '📦 Весь каталог', external: false },
-            { href: 'https://t.me/liga_krasotu', label: '📷 Підбір за фото', external: true },
-            { href: '/delivery', label: '🚚 Доставка та оплата', external: false },
-            { href: '/returns', label: '✅ Гарантія', external: false },
+            { href: '/', label: '🏠 Головна', highlight: false },
+            { href: '/catalog', label: '📦 Весь каталог', highlight: false },
+            { href: '/photo-select', label: '📷 Підбір за фото', highlight: true },
+            { href: '/delivery', label: '🚚 Доставка та оплата', highlight: false },
+            { href: '/returns', label: '✅ Гарантія', highlight: false },
           ].map(item => (
             <Link
               key={item.href}
               href={item.href}
               onClick={closeSidebar}
-              target={item.external ? '_blank' : undefined}
-              rel={item.external ? 'noopener noreferrer' : undefined}
               style={{
                 display: 'block', padding: '11px 20px',
-                color: item.external ? '#FF7A1A' : 'rgba(255,255,255,0.85)',
+                color: item.highlight ? '#FF7A1A' : 'rgba(255,255,255,0.85)',
                 fontSize: '14px', fontWeight: 600, textDecoration: 'none',
                 transition: 'background 0.15s',
-                background: item.external ? 'rgba(255,122,26,0.06)' : 'transparent',
+                background: item.highlight ? 'rgba(255,122,26,0.06)' : 'transparent',
               }}
               onMouseEnter={e => e.currentTarget.style.background = 'rgba(255,255,255,0.06)'}
-              onMouseLeave={e => e.currentTarget.style.background = item.external ? 'rgba(255,122,26,0.06)' : ''}
+              onMouseLeave={e => e.currentTarget.style.background = item.highlight ? 'rgba(255,122,26,0.06)' : ''}
             >
               {item.label}
             </Link>
@@ -264,4 +260,4 @@ export default function SiteHeader({ categories = [], brands = [], models = [] }
       </div>
     </>
   );
-                  }
+}
