@@ -11,7 +11,7 @@ export default function SiteHeader() {
     <header className="site-header">
       <div className="header-inner">
         <Link href="/" className="header-logo" style={{ display: 'flex', alignItems: 'center' }}>
-          <Image src="/logo.png" alt="Beauty Parts" width={160} height={44} style={{ height: 36, width: 'auto' }} priority />
+          <Image src="/logo.png" alt="Beauty Parts" width={220} height={148} style={{ height: 52, width: 'auto' }} priority />
         </Link>
         <nav className="header-nav">
           <Link href="/">Головна</Link>
