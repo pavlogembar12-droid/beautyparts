@@ -12,14 +12,14 @@ const emptyProduct = {
 };
 
 const s = {
-  page: { maxWidth: 640, margin: '0 auto', padding: '20px 16px 80px' },
-  card: { background: '#fff', border: '1px solid #e0ddd8', borderRadius: 12, padding: '20px 16px', marginBottom: 16 },
-  cardTitle: { fontSize: '12px', fontWeight: 700, color: '#888', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: 16, paddingBottom: 10, borderBottom: '1px solid #f0ede8' },
+  page: { maxWidth: 640, margin: '0 auto', padding: '20px 16px 80px', color: '#1a1a1a' },
+  card: { background: '#fff', border: '1px solid #e0ddd8', borderRadius: 12, padding: '20px 16px', marginBottom: 16, color: '#1a1a1a' },
+  cardTitle: { fontSize: '12px', fontWeight: 700, color: '#6b6b6b', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: 16, paddingBottom: 10, borderBottom: '1px solid #f0ede8' },
   label: { display: 'block', fontSize: '13px', fontWeight: 600, color: '#444', marginBottom: 6, marginTop: 14 },
-  input: { display: 'block', width: '100%', padding: '12px 14px', border: '1px solid #ddd', borderRadius: 8, fontSize: '15px', fontFamily: 'inherit', boxSizing: 'border-box', background: '#fafaf8', outline: 'none' },
-  textarea: { display: 'block', width: '100%', padding: '12px 14px', border: '1px solid #ddd', borderRadius: 8, fontSize: '14px', fontFamily: 'inherit', boxSizing: 'border-box', background: '#fafaf8', resize: 'vertical', lineHeight: 1.6, outline: 'none' },
-  select: { display: 'block', width: '100%', padding: '12px 14px', border: '1px solid #ddd', borderRadius: 8, fontSize: '15px', fontFamily: 'inherit', boxSizing: 'border-box', background: '#fafaf8' },
-  hint: { fontSize: '11.5px', color: '#999', marginTop: 5, lineHeight: 1.4 },
+  input: { display: 'block', width: '100%', padding: '12px 14px', border: '1px solid #ddd', borderRadius: 8, fontSize: '15px', fontFamily: 'inherit', boxSizing: 'border-box', background: '#fafaf8', outline: 'none', color: '#1a1a1a' },
+  textarea: { display: 'block', width: '100%', padding: '12px 14px', border: '1px solid #ddd', borderRadius: 8, fontSize: '14px', fontFamily: 'inherit', boxSizing: 'border-box', background: '#fafaf8', resize: 'vertical', lineHeight: 1.6, outline: 'none', color: '#1a1a1a' },
+  select: { display: 'block', width: '100%', padding: '12px 14px', border: '1px solid #ddd', borderRadius: 8, fontSize: '15px', fontFamily: 'inherit', boxSizing: 'border-box', background: '#fafaf8', color: '#1a1a1a' },
+  hint: { fontSize: '11.5px', color: '#777', marginTop: 5, lineHeight: 1.4 },
   row2: { display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 },
   btnSave: { display: 'block', width: '100%', padding: '15px', background: '#1a1a1a', color: '#fff', border: 'none', borderRadius: 10, fontSize: '16px', fontWeight: 700, cursor: 'pointer', marginBottom: 10 },
   btnDelete: { display: 'block', width: '100%', padding: '13px', background: '#fff', color: '#c00', border: '1.5px solid #fcc', borderRadius: 10, fontSize: '14px', fontWeight: 700, cursor: 'pointer' },
@@ -133,7 +133,7 @@ export default function ProductForm({ initialProduct, categories, models }) {
         <div style={{ fontSize: '11px', color: '#999', marginBottom: 6 }}>
           {isEditing ? '✏️ Редагування товару' : '➕ Новий товар'}
         </div>
-        <h1 style={{ fontSize: '1.1rem', fontWeight: 800, lineHeight: 1.3 }}>
+        <h1 style={{ fontSize: '1.1rem', fontWeight: 800, lineHeight: 1.3, color: '#1a1a1a' }}>
           {product.name || 'Без назви'}
         </h1>
       </div>
@@ -251,7 +251,8 @@ export default function ProductForm({ initialProduct, categories, models }) {
                     <span key={id} style={{
                       background: '#fff', border: '1px solid #a5d6a7',
                       borderRadius: 14, padding: '3px 10px',
-                      fontSize: '12px', display: 'flex', alignItems: 'center', gap: 5
+                      fontSize: '12px', display: 'flex', alignItems: 'center', gap: 5,
+                      color: '#1a1a1a',
                     }}>
                       {m.brand} {m.name}
                       <button type="button" onClick={() => toggleModel(id)}
@@ -281,20 +282,20 @@ export default function ProductForm({ initialProduct, categories, models }) {
               : Object.entries(modelsByBrand).map(([brand, items]) => ({ brand, items }))
             ).map(({ brand, items }) => (
               <div key={brand}>
-                <div style={{ padding: '8px 12px 4px', fontSize: '10px', fontWeight: 700, color: '#999', textTransform: 'uppercase', letterSpacing: '1px', background: '#f9f9f7', borderBottom: '1px solid #f0ede8' }}>
+                <div style={{ padding: '8px 12px 4px', fontSize: '10px', fontWeight: 700, color: '#888', textTransform: 'uppercase', letterSpacing: '1px', background: '#f9f9f7', borderBottom: '1px solid #f0ede8' }}>
                   {brand}
                 </div>
                 {items.map(m => {
                   const checked = product.modelIds.includes(m.id);
                   return (
-                    <label key={m.id} style={{ ...s.modelItem, padding: '10px 12px', cursor: 'pointer', background: checked ? '#f0f8f0' : 'transparent' }}>
+                    <label key={m.id} style={{ ...s.modelItem, padding: '10px 12px', cursor: 'pointer', background: checked ? '#f0f8f0' : 'transparent', color: '#1a1a1a' }}>
                       <input
                         type="checkbox"
                         checked={checked}
                         onChange={() => toggleModel(m.id)}
                         style={{ width: 18, height: 18, cursor: 'pointer', flexShrink: 0 }}
                       />
-                      <span style={{ fontSize: '13px', fontWeight: checked ? 600 : 400 }}>
+                      <span style={{ fontSize: '13px', fontWeight: checked ? 600 : 400, color: '#1a1a1a' }}>
                         {m.brand} {m.name}
                       </span>
                     </label>
@@ -313,8 +314,8 @@ export default function ProductForm({ initialProduct, categories, models }) {
               onChange={e => set('inStock', e.target.checked)}
               style={{ width: 22, height: 22, cursor: 'pointer' }} />
             <div>
-              <div style={{ fontSize: '14px', fontWeight: 600 }}>В наявності</div>
-              <div style={{ fontSize: '11.5px', color: '#999' }}>Товар доступний для замовлення</div>
+              <div style={{ fontSize: '14px', fontWeight: 600, color: '#1a1a1a' }}>В наявності</div>
+              <div style={{ fontSize: '11.5px', color: '#777' }}>Товар доступний для замовлення</div>
             </div>
           </label>
           <label style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '12px 0', cursor: 'pointer' }}>
@@ -322,8 +323,8 @@ export default function ProductForm({ initialProduct, categories, models }) {
               onChange={e => set('top', e.target.checked)}
               style={{ width: 22, height: 22, cursor: 'pointer' }} />
             <div>
-              <div style={{ fontSize: '14px', fontWeight: 600 }}>Топ товар</div>
-              <div style={{ fontSize: '11.5px', color: '#999' }}>Показувати в "Популярні товари" на головній</div>
+              <div style={{ fontSize: '14px', fontWeight: 600, color: '#1a1a1a' }}>Топ товар</div>
+              <div style={{ fontSize: '11.5px', color: '#777' }}>Показувати в "Популярні товари" на головній</div>
             </div>
           </label>
         </div>
@@ -365,5 +366,4 @@ export default function ProductForm({ initialProduct, categories, models }) {
       </form>
     </div>
   );
-                  }
-            
+}
