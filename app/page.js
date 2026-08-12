@@ -1,12 +1,6 @@
 import Link from 'next/link';
 import { getAllProducts, getCategoryTree, getAllBrands, getAllModels, slugify } from '@/lib/sheets';
 
-// Сторінка кешується Next.js статично при білді — без цього revalidate
-// зміни в Google Таблиці (нові категорії, товари) ніколи б не з'явились
-// на головній сторінці без повторного деплою. 300с узгоджено з
-// REVALIDATE_SECONDS у lib/sheets.js.
-export const revalidate = 300;
-
 // Бренди, які показуємо додатково, навіть якщо в них ще немає товарів
 const EXTRA_BRANDS = [];
 // Бренди, які НЕ показуємо в блоці "Бренди" на головній
@@ -46,7 +40,7 @@ const FAQS = [
   },
   {
     q: 'Яка умова повернення?',
-    a:'Товар підлягає обміну та поверненню протягом 14 днів (за умов, зазначених у розділі «Гарантія, обмін та повернення»).',
+    a: 'Якщо деталь не підійшла або несправна — повернемо гроші або замінимо протягом 365 днів.',
   },
   {
     q: 'Як швидко прийде замовлення?',
@@ -92,14 +86,12 @@ function BladeMark({ style }) {
 
 // ─── Головна сторінка ────────────────────────────────────
 export default async function HomePage() {
-  // Послідовно, не Promise.all — кожен виклик всередині сам робить
-  // кілька HTTP-запитів до Google Sheets (fetchAllSheets), і паралельний
-  // запуск кількох таких наборів одночасно провокував Google/Next.js
-  // повертати однакову (помилкову) відповідь на різні запити.
-  const products = await getAllProducts();
-  const categoryTree = await getCategoryTree();
-  const brands = await getAllBrands();
-  const models = await getAllModels();
+  const [products, categoryTree, brands, models] = await Promise.all([
+    getAllProducts(),
+    getCategoryTree(),
+    getAllBrands(),
+    getAllModels(),
+  ]);
 
   const knownSlugs = new Set(brands.map((b) => b.slug));
   const displayBrands = [
@@ -125,13 +117,39 @@ export default async function HomePage() {
       <div className="page-wrapper" style={{ paddingBottom: 0 }}>
         <div className="hero" style={{ position: 'relative' }}>
           <BladeMark style={{ top: '-20px', right: '-30px', width: '360px', opacity: 0.5 }} />
-          <div className="hero-content" style={{ position: 'relative', zIndex: 1 }}>
+          <div style={{ position: 'relative', zIndex: 1 }}>
             <div style={{ fontSize: '11px', fontWeight: 700, letterSpacing: '.12em', textTransform: 'uppercase', color: '#FF7A1A', marginBottom: '14px' }}>
               ✂ Оригінальні запчастини Wahl · Moser · BaByliss PRO · Oster
             </div>
             <h1>Знайди деталь для своєї <em>машинки, фену чи фрезера</em></h1>
             <p style={{ margin: '16px 0 0' }}>Wahl, Moser, BaByliss PRO, Oster — ножі, насадки, акумулятори, двигуни.</p>
-            <p style={{ marginBottom: '28px' }}>Підбір за фото. Відправка Новою Поштою в день замовлення.</p>
+            <p style={{ marginBottom: '24px' }}>Підбір за фото. Відправка Новою Поштою в день замовлення.</p>
+            <form method="get" action="/catalog" style={{ display: 'flex', gap: '10px', flexWrap: 'wrap', marginBottom: '24px', maxWidth: '480px' }}>
+              <input
+                type="text"
+                name="q"
+                placeholder="🔍 Шукати товар, артикул, модель..."
+                style={{
+                  flex: 1,
+                  minWidth: '220px',
+                  background: 'var(--surface-2)',
+                  border: '1px solid var(--border)',
+                  color: 'var(--text)',
+                  borderRadius: '8px',
+                  padding: '13px 16px',
+                  fontSize: '15px',
+                  fontFamily: 'inherit',
+                  outline: 'none',
+                }}
+              />
+              <button
+                type="submit"
+                className="btn-primary"
+                style={{ whiteSpace: 'nowrap' }}
+              >
+                Знайти
+              </button>
+            </form>
             <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', marginBottom: '24px' }}>
               <Link href="/catalog" className="btn-primary">Відкрити каталог →</Link>
               <a
@@ -324,5 +342,4 @@ export default async function HomePage() {
       </div>
     </>
   );
-                            }
-          
+}
