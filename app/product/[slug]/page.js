@@ -1,5 +1,5 @@
-  import { notFound } from 'next/navigation';
-import { getAllProducts, getProductBySlug, generateSeo, SITE_URL } from '@/lib/sheets';
+import { notFound } from 'next/navigation';
+import { getAllProducts, getProductBySlug, getAllModels, generateSeo, SITE_URL } from '@/lib/sheets';
 import AddToCartButton from '@/components/AddToCartButton';
 import ProductTabs from '@/components/ProductTabs';
 
@@ -22,11 +22,21 @@ export async function generateMetadata({ params }) {
 }
 
 export default async function ProductPage({ params }) {
-  const product = await getProductBySlug(params.slug);
+  const [product, allModels] = await Promise.all([
+    getProductBySlug(params.slug),
+    getAllModels(),
+  ]);
   if (!product) notFound();
   const seo = generateSeo(product);
 
-  // "Ширина ножа: 40 мм" (з нового рядка) → [{ label: 'Ширина ножа', value: '40 мм' }, ...]
+  // Знаходимо всі моделі до яких підходить товар
+  // product.modelId — рядок типу "m20,m24" або одне значення
+  const modelIds = product.modelId
+    ? String(product.modelId).split(',').map(s => s.trim()).filter(Boolean)
+    : [];
+  const matchedModels = allModels.filter(m => modelIds.includes(m.id));
+
+  // "Ширина ножа: 40 мм" → [{ label, value }, ...]
   const specs = (product.features || '')
     .split('\n')
     .map((line) => line.trim())
@@ -68,13 +78,6 @@ export default async function ProductPage({ params }) {
 
         {/* INFO */}
         <div className="product-info">
-          {product.model && (
-            <p style={{ fontSize: '0.85rem', color: '#888', marginBottom: '8px' }}>
-              Підходить до моделі:{' '}
-              <a href={`/model/${product.modelSlug}`}>{product.model}</a>
-            </p>
-          )}
-
           <h1>{seo.h1}</h1>
 
           <div className="product-price-block">
@@ -105,6 +108,33 @@ export default async function ProductPage({ params }) {
               <div className="product-meta-row">
                 <span className="product-meta-label">Категорія:</span>
                 <a href={`/category/${product.categorySlug}`} className="product-meta-value">{product.category}</a>
+              </div>
+            )}
+            {/* Сумісність з моделями */}
+            {matchedModels.length > 0 && (
+              <div className="product-meta-row" style={{ alignItems: 'flex-start' }}>
+                <span className="product-meta-label">Сумісність:</span>
+                <span className="product-meta-value" style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
+                  {matchedModels.map(m => (
+                    <a
+                      key={m.id}
+                      href={`/model/${m.slug}`}
+                      style={{
+                        display: 'inline-block',
+                        background: 'var(--surface-2)',
+                        border: '1px solid var(--border)',
+                        borderRadius: '4px',
+                        padding: '2px 8px',
+                        fontSize: '0.82rem',
+                        color: 'var(--accent)',
+                        textDecoration: 'none',
+                        whiteSpace: 'nowrap',
+                      }}
+                    >
+                      {m.brand} {m.name}
+                    </a>
+                  ))}
+                </span>
               </div>
             )}
             {specs.map((s) => (
