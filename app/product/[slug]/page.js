@@ -168,4 +168,4 @@ export default async function ProductPage({ params }) {
       </div>
     </div>
   );
-}
+              }
