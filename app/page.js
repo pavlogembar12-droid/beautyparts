@@ -66,52 +66,24 @@ const WHY = [
   { icon: '🎯', title: 'Тільки оригінал',      desc: 'Продаємо виключно оригінальні запчастини Wahl, Moser та BaByliss PRO. Жодних підробок.' },
 ];
 
-// ─── Колаж фото товарів у hero (реальні фото замість SVG) ──
-function HeroCollage({ style }) {
+// ─── Ілюстрація машинки в hero ───────────────────────────
+function HeroIllustration({ style }) {
   return (
     <div style={{ position: 'absolute', pointerEvents: 'none', ...style }} aria-hidden="true">
       <style>{`
-        @keyframes heroFlyTop {
-          0%   { transform: translateY(-60px) rotate(-6deg); opacity: 0; }
-          100% { transform: translateY(0) rotate(0deg); opacity: 1; }
+        @keyframes heroIllustrationIn {
+          0%   { transform: scale(.85) rotate(-4deg); opacity: 0; }
+          100% { transform: scale(1) rotate(0deg); opacity: 1; }
         }
-        @keyframes heroFlyRight {
-          0%   { transform: translateX(70px); opacity: 0; }
-          100% { transform: translateX(0); opacity: 1; }
-        }
-        @keyframes heroFlyLeft {
-          0%   { transform: translateX(-70px); opacity: 0; }
-          100% { transform: translateX(0); opacity: 1; }
-        }
-        @keyframes heroFlyBottom {
-          0%   { transform: translateY(60px) rotate(6deg); opacity: 0; }
-          100% { transform: translateY(0) rotate(0deg); opacity: 1; }
-        }
-        .hero-img-body {
-          position: absolute; right: 6px; bottom: 0; width: 190px;
-          filter: drop-shadow(0 12px 24px rgba(0,0,0,.5));
-          animation: heroFlyRight 1s cubic-bezier(.22,1,.36,1) .15s both;
-        }
-        .hero-img-andis {
-          position: absolute; left: -6px; top: 96px; width: 150px;
-          filter: drop-shadow(0 10px 18px rgba(0,0,0,.45));
-          animation: heroFlyLeft 1s cubic-bezier(.22,1,.36,1) .45s both;
-        }
-        .hero-img-closeup {
-          position: absolute; right: 130px; top: -6px; width: 125px;
-          filter: drop-shadow(0 10px 18px rgba(0,0,0,.45));
-          animation: heroFlyTop 1s cubic-bezier(.22,1,.36,1) .3s both;
-        }
-        .hero-img-attach {
-          position: absolute; left: 6px; bottom: -8px; width: 170px;
-          filter: drop-shadow(0 10px 18px rgba(0,0,0,.45));
-          animation: heroFlyBottom 1s cubic-bezier(.22,1,.36,1) .6s both;
+        .hero-illustration {
+          width: 100%;
+          height: 100%;
+          object-fit: contain;
+          filter: drop-shadow(0 16px 30px rgba(0,0,0,.5));
+          animation: heroIllustrationIn 1s cubic-bezier(.22,1,.36,1) .15s both;
         }
       `}</style>
-      <img src="/hero-blade-andis.png" alt="" className="hero-img-andis" />
-      <img src="/hero-blade-closeup.png" alt="" className="hero-img-closeup" />
-      <img src="/hero-clipper-body.png" alt="" className="hero-img-body" />
-      <img src="/hero-attachments.png" alt="" className="hero-img-attach" />
+      <img src="/hero-clipper-illustration.png" alt="" className="hero-illustration" />
     </div>
   );
 }
@@ -150,7 +122,7 @@ export default async function HomePage() {
       {/* ── HERO ── */}
       <div className="page-wrapper" style={{ paddingBottom: 0 }}>
         <div className="hero" style={{ position: 'relative' }}>
-          <HeroCollage style={{ top: '10px', right: '-10px', width: '320px', height: '380px' }} />
+          <HeroIllustration style={{ top: '-6px', right: '-16px', width: '300px', height: '300px' }} />
           <div className="hero-content" style={{ position: 'relative', zIndex: 1 }}>
             <div style={{ fontSize: '11px', fontWeight: 700, letterSpacing: '.12em', textTransform: 'uppercase', color: '#FF7A1A', marginBottom: '14px' }}>
               ✂ Оригінальні запчастини Wahl · Moser · BaByliss PRO · Oster
