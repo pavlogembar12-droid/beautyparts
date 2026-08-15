@@ -66,171 +66,53 @@ const WHY = [
   { icon: '🎯', title: 'Тільки оригінал',      desc: 'Продаємо виключно оригінальні запчастини Wahl, Moser та BaByliss PRO. Жодних підробок.' },
 ];
 
-// ─── Анімована збірка машинки для стрижки (SVG) ──────────
-function ClipperAssembly({ style }) {
+// ─── Колаж фото товарів у hero (реальні фото замість SVG) ──
+function HeroCollage({ style }) {
   return (
-    <svg
-      viewBox="0 0 320 380"
-      style={{ position: 'absolute', pointerEvents: 'none', ...style }}
-      aria-hidden="true"
-    >
-      <defs>
-        <linearGradient id="bodyGrad" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor="#FF7A1A" stopOpacity="0.95" />
-          <stop offset="100%" stopColor="#CC5500" stopOpacity="0.7" />
-        </linearGradient>
-        <linearGradient id="bladeGrad2" x1="0" y1="0" x2="1" y2="0">
-          <stop offset="0%" stopColor="#FFB273" stopOpacity="0.9" />
-          <stop offset="100%" stopColor="#FF7A1A" stopOpacity="0.6" />
-        </linearGradient>
-        <linearGradient id="attachGrad" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0%" stopColor="#FF7A1A" stopOpacity="0.5" />
-          <stop offset="100%" stopColor="#FF7A1A" stopOpacity="0.15" />
-        </linearGradient>
-        <filter id="glow">
-          <feGaussianBlur stdDeviation="2" result="blur" />
-          <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
-        </filter>
-        <style>{`
-          @keyframes slideInBody {
-            0%   { transform: translateX(120px); opacity: 0; }
-            100% { transform: translateX(0); opacity: 1; }
-          }
-          @keyframes slideInBlade {
-            0%   { transform: translateY(-80px); opacity: 0; }
-            60%  { transform: translateY(-80px); opacity: 0; }
-            100% { transform: translateY(0); opacity: 1; }
-          }
-          @keyframes slideInAttach {
-            0%   { transform: translateY(80px); opacity: 0; }
-            60%  { transform: translateY(80px); opacity: 0; }
-            100% { transform: translateY(0); opacity: 1; }
-          }
-          @keyframes slideInScrew1 {
-            0%   { transform: translateX(60px); opacity: 0; }
-            70%  { transform: translateX(60px); opacity: 0; }
-            100% { transform: translateX(0); opacity: 1; }
-          }
-          @keyframes slideInScrew2 {
-            0%   { transform: translateX(-60px); opacity: 0; }
-            70%  { transform: translateX(-60px); opacity: 0; }
-            100% { transform: translateX(0); opacity: 1; }
-          }
-          @keyframes pulse {
-            0%, 100% { opacity: 0.6; }
-            50%       { opacity: 1; }
-          }
-          .anim-body   { animation: slideInBody   1.2s cubic-bezier(.22,1,.36,1) 0.2s both; }
-          .anim-blade  { animation: slideInBlade  1.4s cubic-bezier(.22,1,.36,1) 0.2s both; }
-          .anim-attach { animation: slideInAttach 1.4s cubic-bezier(.22,1,.36,1) 0.2s both; }
-          .anim-screw1 { animation: slideInScrew1 1.2s cubic-bezier(.22,1,.36,1) 0.4s both; }
-          .anim-screw2 { animation: slideInScrew2 1.2s cubic-bezier(.22,1,.36,1) 0.4s both; }
-          .anim-pulse  { animation: pulse 3s ease-in-out 2s infinite; }
-        `}</style>
-      </defs>
-
-      {/* НАСАДКА-ГРЕБІНЬ (зверху) */}
-      <g className="anim-blade" filter="url(#glow)">
-        {/* Гребінь — зубці */}
-        {[0,1,2,3,4,5,6,7,8,9,10,11].map(i => (
-          <rect
-            key={i}
-            x={74 + i * 15}
-            y={28}
-            width={8}
-            height={28}
-            rx={2}
-            fill="url(#bladeGrad2)"
-            opacity={0.85}
-          />
-        ))}
-        {/* Основа гребеня */}
-        <rect x={70} y={52} width={188} height={18} rx={4} fill="url(#bladeGrad2)" opacity={0.9}/>
-        {/* Підпис */}
-        <text x={160} y={44} textAnchor="middle" fontSize="9" fill="#FFB273" opacity={0.7} fontFamily="system-ui">насадка</text>
-      </g>
-
-      {/* НОЖОВИЙ БЛОК (приєднується до корпусу зверху) */}
-      <g className="anim-blade">
-        {/* Леза — зубці ножового блоку */}
-        {[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15].map(i => (
-          <rect
-            key={i}
-            x={68 + i * 11.5}
-            y={84}
-            width={7}
-            height={20}
-            rx={1.5}
-            fill="#FF7A1A"
-            opacity={0.7 + (i % 2) * 0.15}
-          />
-        ))}
-        {/* Корпус ножового блоку */}
-        <rect x={64} y={100} width={200} height={24} rx={5} fill="url(#bladeGrad2)" opacity={0.95}/>
-        <text x={160} y={96} textAnchor="middle" fontSize="9" fill="#FFB273" opacity={0.7} fontFamily="system-ui">ножовий блок</text>
-      </g>
-
-      {/* КОРПУС МАШИНКИ */}
-      <g className="anim-body">
-        {/* Основний корпус */}
-        <rect x={80} y={120} width={168} height={190} rx={28} fill="url(#bodyGrad)" opacity={0.22}/>
-        <rect x={82} y={122} width={164} height={188} rx={26} fill="none" stroke="url(#bodyGrad)" strokeWidth={2}/>
-
-        {/* Кнопка увімкнення */}
-        <rect x={136} y={155} width={56} height={22} rx={11} fill="#FF7A1A" opacity={0.35}/>
-        <rect x={138} y={157} width={52} height={18} rx={9} fill="none" stroke="#FF7A1A" strokeWidth={1.5} opacity={0.6}/>
-        <circle cx={155} cy={166} r={6} fill="#FF7A1A" opacity={0.7}/>
-        <circle cx={173} cy={166} r={6} fill="#FF7A1A" opacity={0.25}/>
-        <text x={164} y={192} textAnchor="middle" fontSize="9" fill="#FFB273" opacity={0.5} fontFamily="system-ui">ON / OFF</text>
-
-        {/* Регулятор довжини зрізу */}
-        <rect x={112} y={205} width={104} height={10} rx={5} fill="#FF7A1A" opacity={0.15}/>
-        <rect x={112} y={205} width={104} height={10} rx={5} fill="none" stroke="#FF7A1A" strokeWidth={1} opacity={0.4}/>
-        <rect x={148} y={202} width={32} height={16} rx={4} fill="#FF7A1A" opacity={0.45}/>
-
-        {/* Вентиляційні отвори */}
-        {[0,1,2].map(i => (
-          <rect key={i} x={130} y={232 + i * 14} width={68} height={6} rx={3} fill="#FF7A1A" opacity={0.12}/>
-        ))}
-
-        {/* Логотип — стилізоване лезо */}
-        <path d="M148 282 L160 268 L172 282" fill="none" stroke="#FF7A1A" strokeWidth={1.5} opacity={0.4}/>
-        <line x1={160} y1={268} x2={160} y2={292} stroke="#FF7A1A" strokeWidth={1.5} opacity={0.4}/>
-      </g>
-
-      {/* ГВИНТИ (кріплення ножового блоку) */}
-      <g className="anim-screw1" filter="url(#glow)">
-        <circle cx={96} cy={112} r={7} fill="#FF7A1A" opacity={0.5}/>
-        <circle cx={96} cy={112} r={4} fill="none" stroke="#FFB273" strokeWidth={1.5} opacity={0.8}/>
-        <line x1={93} y1={112} x2={99} y2={112} stroke="#FFB273" strokeWidth={1} opacity={0.8}/>
-        <line x1={96} y1={109} x2={96} y2={115} stroke="#FFB273" strokeWidth={1} opacity={0.8}/>
-      </g>
-      <g className="anim-screw2" filter="url(#glow)">
-        <circle cx={232} cy={112} r={7} fill="#FF7A1A" opacity={0.5}/>
-        <circle cx={232} cy={112} r={4} fill="none" stroke="#FFB273" strokeWidth={1.5} opacity={0.8}/>
-        <line x1={229} y1={112} x2={235} y2={112} stroke="#FFB273" strokeWidth={1} opacity={0.8}/>
-        <line x1={232} y1={109} x2={232} y2={115} stroke="#FFB273" strokeWidth={1} opacity={0.8}/>
-      </g>
-
-      {/* АКУМУЛЯТОР / НИЖНЯ ЧАСТИНА */}
-      <g className="anim-attach">
-        <rect x={100} y={312} width={128} height={36} rx={10} fill="url(#attachGrad)" stroke="#FF7A1A" strokeWidth={1.5} opacity={0.7}/>
-        {/* Індикатор заряду */}
-        {[0,1,2,3].map(i => (
-          <rect key={i} x={115 + i * 26} y={322} width={16} height={10} rx={2}
-            fill="#FF7A1A" opacity={i < 3 ? 0.6 : 0.15} className="anim-pulse"/>
-        ))}
-        <text x={164} y={360} textAnchor="middle" fontSize="9" fill="#FFB273" opacity={0.6} fontFamily="system-ui">акумулятор</text>
-      </g>
-
-      {/* З'ЄДНУВАЛЬНІ ЛІНІЇ (пунктир) */}
-      <g opacity={0.25} className="anim-body">
-        <line x1={88} y1={70} x2={88} y2={120} stroke="#FF7A1A" strokeWidth={1} strokeDasharray="3,3"/>
-        <line x1={240} y1={70} x2={240} y2={120} stroke="#FF7A1A" strokeWidth={1} strokeDasharray="3,3"/>
-        <line x1={124} y1={308} x2={124} y2={312} stroke="#FF7A1A" strokeWidth={1} strokeDasharray="3,3"/>
-        <line x1={204} y1={308} x2={204} y2={312} stroke="#FF7A1A" strokeWidth={1} strokeDasharray="3,3"/>
-      </g>
-    </svg>
+    <div style={{ position: 'absolute', pointerEvents: 'none', ...style }} aria-hidden="true">
+      <style>{`
+        @keyframes heroFlyTop {
+          0%   { transform: translateY(-60px) rotate(-6deg); opacity: 0; }
+          100% { transform: translateY(0) rotate(0deg); opacity: 1; }
+        }
+        @keyframes heroFlyRight {
+          0%   { transform: translateX(70px); opacity: 0; }
+          100% { transform: translateX(0); opacity: 1; }
+        }
+        @keyframes heroFlyLeft {
+          0%   { transform: translateX(-70px); opacity: 0; }
+          100% { transform: translateX(0); opacity: 1; }
+        }
+        @keyframes heroFlyBottom {
+          0%   { transform: translateY(60px) rotate(6deg); opacity: 0; }
+          100% { transform: translateY(0) rotate(0deg); opacity: 1; }
+        }
+        .hero-img-body {
+          position: absolute; right: 6px; bottom: 0; width: 190px;
+          filter: drop-shadow(0 12px 24px rgba(0,0,0,.5));
+          animation: heroFlyRight 1s cubic-bezier(.22,1,.36,1) .15s both;
+        }
+        .hero-img-andis {
+          position: absolute; left: -6px; top: 96px; width: 150px;
+          filter: drop-shadow(0 10px 18px rgba(0,0,0,.45));
+          animation: heroFlyLeft 1s cubic-bezier(.22,1,.36,1) .45s both;
+        }
+        .hero-img-closeup {
+          position: absolute; right: 130px; top: -6px; width: 125px;
+          filter: drop-shadow(0 10px 18px rgba(0,0,0,.45));
+          animation: heroFlyTop 1s cubic-bezier(.22,1,.36,1) .3s both;
+        }
+        .hero-img-attach {
+          position: absolute; left: 6px; bottom: -8px; width: 170px;
+          filter: drop-shadow(0 10px 18px rgba(0,0,0,.45));
+          animation: heroFlyBottom 1s cubic-bezier(.22,1,.36,1) .6s both;
+        }
+      `}</style>
+      <img src="/hero-blade-andis.png" alt="" className="hero-img-andis" />
+      <img src="/hero-blade-closeup.png" alt="" className="hero-img-closeup" />
+      <img src="/hero-clipper-body.png" alt="" className="hero-img-body" />
+      <img src="/hero-attachments.png" alt="" className="hero-img-attach" />
+    </div>
   );
 }
 
@@ -268,7 +150,7 @@ export default async function HomePage() {
       {/* ── HERO ── */}
       <div className="page-wrapper" style={{ paddingBottom: 0 }}>
         <div className="hero" style={{ position: 'relative' }}>
-          <ClipperAssembly style={{ top: '-10px', right: '-20px', width: '280px', height: '380px', opacity: 0.9 }} />
+          <HeroCollage style={{ top: '10px', right: '-10px', width: '320px', height: '380px' }} />
           <div className="hero-content" style={{ position: 'relative', zIndex: 1 }}>
             <div style={{ fontSize: '11px', fontWeight: 700, letterSpacing: '.12em', textTransform: 'uppercase', color: '#FF7A1A', marginBottom: '14px' }}>
               ✂ Оригінальні запчастини Wahl · Moser · BaByliss PRO · Oster
