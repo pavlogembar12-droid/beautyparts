@@ -3,6 +3,12 @@ import SiteHeader from '@/components/SiteHeader';
 import SiteSidebar from '@/components/SiteSidebar';
 import './globals.css';
 
+// ✅ ГОЛОВНИЙ ФІКС — вимикає статичну генерацію для всього сайту.
+// Без цього Next.js намагається згенерувати всі 32 сторінки при білді,
+// кожна чекає Google Sheets API → timeout 60 сек → crash.
+// З цим рядком сторінки рендеряться при запиті користувача, не при білді.
+export const dynamic = 'force-dynamic';
+
 export const metadata = {
   title: 'Beauty Parts — Запчастини для машинок для стрижки Wahl, Moser',
   description:
