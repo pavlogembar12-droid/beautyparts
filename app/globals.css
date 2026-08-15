@@ -627,3 +627,98 @@ html.sidebar-closed .site-sidebar {
 .site-layout {
   transition: grid-template-columns 0.25s ease;
 }
+/* =====================================================
+   ДОДАТИ В КІНЕЦЬ globals.css
+   ===================================================== */
+
+/* ── Бігучий рядок (ticker) ── */
+@keyframes ticker-scroll {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.header-ticker {
+  background: var(--accent);
+  color: var(--black);
+  overflow: hidden;
+  padding: 5px 0;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+
+.header-ticker-track {
+  display: inline-flex;
+  width: max-content;
+  animation: ticker-scroll 28s linear infinite;
+}
+
+.header-ticker-item {
+  padding: 0 24px;
+}
+
+.header-ticker-track:hover {
+  animation-play-state: paused;
+}
+
+/* ── Навігація: базовий лінк ── */
+.header-nav-link {
+  color: rgba(255,255,255,0.8);
+  font-size: 0.92rem;
+  text-decoration: none;
+  padding: 5px 10px;
+  border-radius: 6px;
+  transition: color 0.15s, background 0.15s;
+  display: inline-flex;
+  align-items: center;
+}
+
+.header-nav-link:hover {
+  color: #fff;
+  background: rgba(255,255,255,0.08);
+}
+
+/* ── Каталог — в рамці ── */
+.header-nav-box {
+  border: 1.5px solid rgba(255,255,255,0.4) !important;
+  color: #fff !important;
+  font-weight: 600;
+}
+
+.header-nav-box:hover {
+  border-color: rgba(255,255,255,0.8) !important;
+  background: rgba(255,255,255,0.1) !important;
+}
+
+/* ── Підбір за фото — оранжева кнопка ── */
+.header-nav-photo {
+  border: 1.5px solid var(--accent) !important;
+  color: var(--accent) !important;
+  font-weight: 600;
+  gap: 5px;
+}
+
+.header-nav-photo:hover {
+  background: rgba(200,169,110,0.15) !important;
+  color: #fff !important;
+}
+
+/* ── Лого ── */
+.header-logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+}
+
+.header-logo-text {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: -0.5px;
+  white-space: nowrap;
+}
+
+/* Прибрати старий стиль .header-logo щоб не конфліктував */
+a.header-logo { color: inherit; }
