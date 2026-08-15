@@ -1,15 +1,32 @@
 import Link from 'next/link';
 import { getAllCategories, getAllBrands } from '@/lib/sheets';
-import SidebarShell from './SidebarShell';
+
+// Таймаут щоб не зависати при генерації сторінок
+function withTimeout(promise, ms = 4000) {
+  return Promise.race([
+    promise,
+    new Promise((_, reject) =>
+      setTimeout(() => reject(new Error('fetch timeout')), ms)
+    ),
+  ]);
+}
 
 export default async function SiteSidebar() {
-  const [categories, brands] = await Promise.all([
-    getAllCategories(),
-    getAllBrands(),
-  ]);
+  let categories = [];
+  let brands = [];
+
+  try {
+    [categories, brands] = await Promise.all([
+      withTimeout(getAllCategories(), 4000),
+      withTimeout(getAllBrands(), 4000),
+    ]);
+  } catch (e) {
+    // Якщо Sheets не відповідає — сайдбар рендериться без динамічних даних
+    console.error('[SiteSidebar] fetch failed:', e.message);
+  }
 
   return (
-    <SidebarShell>
+    <aside className="site-sidebar">
 
       {/* ── Головна навігація ── */}
       <div className="sidebar-section">
@@ -20,7 +37,7 @@ export default async function SiteSidebar() {
         </Link>
       </div>
 
-      {/* ── Категорії (з Sheets) ── */}
+      {/* ── Категорії ── */}
       {categories.length > 0 && (
         <div className="sidebar-section">
           <div className="sidebar-heading">Категорії</div>
@@ -32,7 +49,7 @@ export default async function SiteSidebar() {
         </div>
       )}
 
-      {/* ── Бренди (з Sheets) ── */}
+      {/* ── Бренди ── */}
       {brands.length > 0 && (
         <div className="sidebar-section">
           <div className="sidebar-heading">Бренди</div>
@@ -52,6 +69,6 @@ export default async function SiteSidebar() {
         <Link href="/contacts" className="sidebar-nav-link">📞 Контакти</Link>
       </div>
 
-    </SidebarShell>
+    </aside>
   );
 }
