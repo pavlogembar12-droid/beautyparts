@@ -143,7 +143,7 @@ export default function SiteHeader({ categories = [], brands = [], models = [] }
           flexShrink: 0,
         }}>
           <Link href="/" onClick={closeSidebar} style={{ display: 'flex', alignItems: 'center' }}>
-            <Image src="/logo.png" alt="Beauty Parts" width={250} height={100} style={{ height: 66, width: 'auto' }} />
+            <Image src="/logo.png" alt="Beauty Parts" width={500} height={300} style={{ height: 66, width: 'auto' }} />
           </Link>
           <button
             onClick={closeSidebar}
