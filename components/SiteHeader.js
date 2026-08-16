@@ -55,7 +55,7 @@ export default function SiteHeader() {
           {/* Лого */}
           <Link href="/" className="header-logo">
             <img
-              src="/logo.png"
+              src="/logo-header.png"
               alt="Beauty Parts"
               style={{ height: '34px', width: 'auto', objectFit: 'contain' }}
               onError={(e) => { e.currentTarget.style.display = 'none'; }}
