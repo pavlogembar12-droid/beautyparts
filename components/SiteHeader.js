@@ -61,23 +61,83 @@ export default function SiteHeader({ categories = [], brands = [], models = [] }
       </div>
 
       {/* ОСНОВНИЙ ХЕДЕР */}
-      <header className="site-header">
-        <div className="header-inner">
-          <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-            {/* Бургер */}
-            <button
-              onClick={() => setSidebarOpen(true)}
-              aria-label="Відкрити меню"
-              style={{
-                background: 'none', border: 'none', cursor: 'pointer',
-                padding: '8px', color: '#fff', display: 'flex',
-                flexDirection: 'column', gap: '5px', flexShrink: 0,
-              }}
-            >
-              <span style={{ display: 'block', width: 22, height: 2, background: '#fff', borderRadius: 2 }} />
-              <span style={{ display: 'block', width: 22, height: 2, background: '#fff', borderRadius: 2 }} />
-              <span style={{ display: 'block', width: 22, height: 2, background: '#fff', borderRadius: 2 }} />
-            </button>
+      <div className="header-inner">
+  <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+    {/* Бургер */}
+    <button
+      onClick={() => setSidebarOpen(true)}
+      aria-label="Відкрити меню"
+      style={{
+        background: 'none', border: 'none', cursor: 'pointer',
+        padding: '8px', color: '#fff', display: 'flex',
+        flexDirection: 'column', gap: '5px', flexShrink: 0,
+      }}
+    >
+      <span style={{ display: 'block', width: 22, height: 2, background: '#fff', borderRadius: 2 }} />
+      <span style={{ display: 'block', width: 22, height: 2, background: '#fff', borderRadius: 2 }} />
+      <span style={{ display: 'block', width: 22, height: 2, background: '#fff', borderRadius: 2 }} />
+    </button>
+
+    {/* Лого */}
+    <Link href="/" className="header-logo" style={{ display: 'flex', alignItems: 'center' }}>
+      <div style={{
+        width: '175px', height: '50px', overflow: 'hidden',
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
+      }}>
+        <Image
+          src="/logo.png" alt="Beauty Parts"
+          width={220} height={148}
+          style={{ height: '95px', width: 'auto', flexShrink: 0 }}
+          priority
+        />
+      </div>
+    </Link>
+
+    {/* Пошук */}
+    <form
+      method="get"
+      action="/catalog"
+      style={{ display: 'flex', alignItems: 'center', flex: 1, maxWidth: '260px' }}
+    >
+      <input
+        type="text"
+        name="q"
+        placeholder="🔍 Пошук..."
+        style={{
+          width: '100%',
+          padding: '7px 12px',
+          borderRadius: '6px',
+          border: '1.5px solid rgba(255,255,255,0.2)',
+          background: 'rgba(255,255,255,0.1)',
+          color: '#fff',
+          fontSize: '13px',
+          outline: 'none',
+        }}
+      />
+    </form>
+  </div>
+
+  <nav className="header-nav">
+    <Link href="/">Головна</Link>
+    <Link href="/catalog" style={{
+      color: '#FF7A1A',
+      border: '1.5px solid rgba(255,122,26,0.5)',
+      borderRadius: '6px', padding: '4px 10px',
+    }}>Каталог</Link>
+    <Link href="/photo-select" style={{
+      color: '#FF7A1A',
+      border: '1.5px solid rgba(255,122,26,0.3)',
+      borderRadius: '6px', padding: '4px 10px',
+      background: 'rgba(255,122,26,0.08)',
+    }}>📷 Підбір за фото</Link>
+    <Link href="/delivery">Доставка</Link>
+    <Link href="/returns">Гарантія</Link>
+  </nav>
+
+  <Link href="/cart" className="header-cart">
+    🛒 Кошик {totalItems > 0 ? `(${totalItems})` : ''}
+  </Link>
+</div>
 
             {/* Лого-картинка */}
             <Link href="/" className="header-logo" style={{ display: 'flex', alignItems: 'center' }}>
