@@ -81,15 +81,24 @@ export default function SiteHeader({ categories = [], brands = [], models = [] }
 
             {/* Лого-картинка */}
             <Link href="/" className="header-logo" style={{ display: 'flex', alignItems: 'center' }}>
-              <Image
-                src="/logo.png"
-                alt="Beauty Parts"
-                width={220}
-                height={148}
-                style={{ height: 58, width: 'auto' }}
-                priority
-              />
-            </Link>
+  <div style={{
+    width: '145px',
+    height: '50px',
+    overflow: 'hidden',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  }}>
+    <Image
+      src="/logo.png"
+      alt="Beauty Parts"
+      width={220}
+      height={148}
+      style={{ height: '95px', width: 'auto', flexShrink: 0 }}
+      priority
+    />
+  </div>
+</Link>
           </div>
 
           <nav className="header-nav">
