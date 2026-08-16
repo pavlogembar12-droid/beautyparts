@@ -86,7 +86,7 @@ export default function SiteHeader({ categories = [], brands = [], models = [] }
                 alt="Beauty Parts"
                 width={200}
                 height={70}
-                style={{ height: 50, width: 'auto' }}
+                style={{ height: 20, width: 'auto' }}
                 priority
               />
             </Link>
