@@ -559,3 +559,20 @@ footer.site-footer a { color: var(--accent); }
   color: var(--text);
 }
 .entity-subcat-pill:hover { border-color: var(--accent); color: var(--accent); }
+@media (max-width: 640px) {
+  .header-nav { display: none; }
+  .header-inner { flex-wrap: nowrap; }
+
+  /* Машинка — під текст, не поверх */
+  .hero > div {
+    display: flex;
+    flex-direction: column;
+  }
+  .hero img:not([alt="Beauty Parts"]) {
+    order: -1;
+    width: 100% !important;
+    height: 200px !important;
+    object-fit: contain;
+    margin: 0 auto 16px;
+  }
+}
