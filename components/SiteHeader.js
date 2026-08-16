@@ -82,8 +82,8 @@ export default function SiteHeader({ categories = [], brands = [], models = [] }
             {/* Лого-картинка */}
             <Link href="/" className="header-logo" style={{ display: 'flex', alignItems: 'center' }}>
   <div style={{
-    width: '145px',
-    height: '70px',
+    width: '165px',
+    height: '50px',
     overflow: 'hidden',
     display: 'flex',
     alignItems: 'center',
