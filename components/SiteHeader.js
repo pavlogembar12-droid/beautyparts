@@ -84,9 +84,9 @@ export default function SiteHeader({ categories = [], brands = [], models = [] }
               <Image
                 src="/logo.png"
                 alt="Beauty Parts"
-                width={5000}
-                height={200
-                style={{ height: 128, width: 'auto' }}
+                width={220}
+                height={148}
+                style={{ height: 58, width: 'auto' }}
                 priority
               />
             </Link>
@@ -96,16 +96,16 @@ export default function SiteHeader({ categories = [], brands = [], models = [] }
             <Link href="/">Головна</Link>
             <Link href="/catalog" style={{
               color: '#FF7A1A',
-              border: '1.5px solid rgba(555,122,26,0.5)',
+              border: '1.5px solid rgba(255,122,26,0.5)',
               borderRadius: '6px',
               padding: '4px 10px',
             }}>Каталог</Link>
             <Link href="/photo-select" style={{
               color: '#FF7A1A',
-              border: '1.5px solid rgba(555,122,26,0.3)',
+              border: '1.5px solid rgba(255,122,26,0.3)',
               borderRadius: '6px',
               padding: '4px 10px',
-              background: 'rgba(555,122,26,0.08)',
+              background: 'rgba(255,122,26,0.08)',
             }}>📷 Підбір за фото</Link>
             <Link href="/delivery">Доставка</Link>
             <Link href="/returns">Гарантія</Link>
@@ -143,7 +143,7 @@ export default function SiteHeader({ categories = [], brands = [], models = [] }
           flexShrink: 0,
         }}>
           <Link href="/" onClick={closeSidebar} style={{ display: 'flex', alignItems: 'center' }}>
-            <Image src="/logo.png" alt="Beauty Parts" width={500} height={300} style={{ height: 150, width: 'auto' }} />
+            <Image src="/logo.png" alt="Beauty Parts" width={120} height={80} style={{ height: 36, width: 'auto' }} />
           </Link>
           <button
             onClick={closeSidebar}
@@ -279,4 +279,4 @@ export default function SiteHeader({ categories = [], brands = [], models = [] }
       </div>
     </>
   );
-                                       }
+}
