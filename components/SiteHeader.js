@@ -83,7 +83,7 @@ export default function SiteHeader({ categories = [], brands = [], models = [] }
             <Link href="/" className="header-logo" style={{ display: 'flex', alignItems: 'center' }}>
   <div style={{
     width: '145px',
-    height: '50px',
+    height: '70px',
     overflow: 'hidden',
     display: 'flex',
     alignItems: 'center',
