@@ -96,16 +96,16 @@ export default function SiteHeader({ categories = [], brands = [], models = [] }
             <Link href="/">Головна</Link>
             <Link href="/catalog" style={{
               color: '#FF7A1A',
-              border: '1.5px solid rgba(255,122,26,0.5)',
+              border: '1.5px solid rgba(555,122,26,0.5)',
               borderRadius: '6px',
               padding: '4px 10px',
             }}>Каталог</Link>
             <Link href="/photo-select" style={{
               color: '#FF7A1A',
-              border: '1.5px solid rgba(255,122,26,0.3)',
+              border: '1.5px solid rgba(555,122,26,0.3)',
               borderRadius: '6px',
               padding: '4px 10px',
-              background: 'rgba(255,122,26,0.08)',
+              background: 'rgba(555,122,26,0.08)',
             }}>📷 Підбір за фото</Link>
             <Link href="/delivery">Доставка</Link>
             <Link href="/returns">Гарантія</Link>
