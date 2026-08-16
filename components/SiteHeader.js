@@ -60,9 +60,7 @@ export default function SiteHeader() {
               style={{ height: '34px', width: 'auto', objectFit: 'contain' }}
               onError={(e) => { e.currentTarget.style.display = 'none'; }}
             />
-            <span className="header-logo-text">
-              ✂ Beauty<span style={{ color: 'var(--accent)' }}>Parts</span>
-            </span>
+          
           </Link>
 
           {/* Навігація */}
