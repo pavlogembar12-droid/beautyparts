@@ -116,7 +116,6 @@ export default function SiteHeader({ categories = [], brands = [], models = [] }
       />
     </form>
   </div>
-
   <nav className="header-nav">
     <Link href="/">Головна</Link>
     <Link href="/catalog" style={{
