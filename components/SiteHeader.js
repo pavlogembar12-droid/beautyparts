@@ -50,8 +50,9 @@ export default function SiteHeader() {
         <div className="header-inner">
           <Link href="/" className="header-logo" style={{ display: 'flex', alignItems: 'center' }}>
             <Image
-              src="/logo-header.png   
-             width={220}
+              src="/logo.png"
+              alt="Beauty Parts"
+              width={220}
               height={148}
               style={{ height: 108, width: 'auto' }}
               priority
