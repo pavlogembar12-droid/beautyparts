@@ -94,7 +94,9 @@ export default function SiteHeader({ categories = [], brands = [], models = [] }
 <form method="get" action="/catalog"
   style={{ display: 'flex', alignItems: 'center', flex: 1
 >
-  <style>{`.bp-search::placeholder{color:rgba(255,255,255,0.55)}`}</style>
+  .bp-search::placeholder {
+  color: rgba(255, 255, 255, 0.55);
+  }
   <input
     type="text"
     name="q"
