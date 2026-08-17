@@ -129,11 +129,8 @@ export default async function HomePage() {
             </div>
             <h1>Знайди деталь для своєї <em>машинки, фену чи фрезера</em></h1>
             <p style={{ margin: '16px 0 0' }}>Wahl, Moser, BaByliss PRO, Oster — ножі, насадки, акумулятори, двигуни.</p>
-            <p style={{ marginBottom: '28px' }}>Підбір за фото. Відправка Новою Поштою в день замовлення.</p>
-            <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', marginBottom: '24px' }}>
-              <Link href="/catalog" className="btn-primary">Відкрити каталог →</Link>
-              <a
-                href="https://t.me/liga_krasotu"
+            <p style={{ marginBottom: '28px' }}>Підбір за фото. Відправка Новою Поштою в день замовлення.</p>         
+             href="https://t.me/liga_krasotu"
                 target="_blank"
                 rel="noopener noreferrer"
                 style={{ background: 'transparent', color: 'rgba(245,239,230,.85)', fontWeight: 600, fontSize: '15px', padding: '12px 24px', borderRadius: '6px', border: '1.5px solid rgba(255,122,26,.35)', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: '6px' }}
@@ -141,6 +138,28 @@ export default async function HomePage() {
                 📷 Підбір за фото
               </a>
             </div>
+  {/* Пошук — тільки десктоп */}
+<form method="get" action="/catalog" style={{
+  display: 'flex', gap: '8px', marginBottom: '20px', maxWidth: '460px',
+}}>
+  <input
+    type="text"
+    name="q"
+    placeholder="Пошук запчастин..."
+    style={{
+      flex: 1, padding: '11px 16px', borderRadius: '8px',
+      border: '1.5px solid rgba(255,255,255,0.2)',
+      background: 'rgba(255,255,255,0.1)',
+      color: '#fff', fontSize: '14px', outline: 'none',
+      fontFamily: 'inherit',
+    }}
+  />
+  <button type="submit" style={{
+    background: '#FF7A1A', color: '#000', border: 'none',
+    padding: '11px 20px', borderRadius: '8px',
+    fontWeight: 700, cursor: 'pointer', fontSize: '14px',
+  }}>Знайти</button>
+</form>                
             <div className="hero-badges">
               <span className="hero-badge">✅ Гарантія 365 днів</span>
               <span className="hero-badge">📦 Нова Пошта по Україні</span>
