@@ -576,3 +576,7 @@ footer.site-footer a { color: var(--accent); }
     margin: 0 auto 16px;
   }
 }
+/*пошук*/
+.bp-search::placeholder {
+  color: rgba(255, 255, 255, 0.55);
+}
