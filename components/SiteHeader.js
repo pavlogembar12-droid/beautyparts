@@ -91,28 +91,22 @@ export default function SiteHeader({ categories = [], brands = [], models = [] }
             </Link>
 
             {/* Пошук */}
-<form method="get" action="/catalog"
-  style={{ display: 'flex', alignItems: 'center', flex: 1
->
-  <input
-    type="text"
-    name="q"
-    className="bp-search"
-    placeholder="Пошук запчастин..."
-    style={{
-      width: '100%',
-      padding: '8px 14px',
-      borderRadius: '8px',
-      border: '1.5px solid rgba(255,255,255,0.3)',
-      background: 'rgba(255,255,255,0.15)',
-      color: '#ffffff',
-      WebkitTextFillColor: '#ffffff',
-      fontSize: '13px',
-      outline: 'none',
-      fontFamily: 'inherit',
-    }}
-  />
-</form>
+            <form method="get" action="/catalog"
+              style={{ display: 'flex', alignItems: 'center', flex: 1, maxWidth: '280px' }}
+            >
+              <input
+                type="text"
+                name="q"
+                placeholder="🔍 Пошук запчастин..."
+                style={{
+                  width: '100%', padding: '8px 14px', borderRadius: '8px',
+                  border: '1.5px solid rgba(255,255,255,0.2)',
+                  background: 'rgba(255,255,255,0.1)',
+                  color: '#fff', fontSize: '13px', outline: 'none',
+                  fontFamily: 'inherit',
+                }}
+              />
+            </form>
 
           </div>
 
@@ -280,4 +274,5 @@ export default function SiteHeader({ categories = [], brands = [], models = [] }
       </div>
     </>
   );
-}
+          }
+                
