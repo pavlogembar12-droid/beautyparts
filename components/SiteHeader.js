@@ -92,7 +92,7 @@ export default function SiteHeader({ categories = [], brands = [], models = [] }
 
             {/* Пошук */}
 <form method="get" action="/catalog"
-  style={{ display: 'flex', alignItems: 'center', flex: 1, maxWidth: '1000px' }}
+  style={{ display: 'flex', alignItems: 'center', flex: 1
 >
   <style>{`.bp-search::placeholder{color:rgba(255,255,255,0.55)}`}</style>
   <input
