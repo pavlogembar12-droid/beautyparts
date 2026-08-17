@@ -98,7 +98,7 @@ export default function SiteHeader({ categories = [], brands = [], models = [] }
     type="text"
     name="q"
     className="bp-search"
-    placeholder="🔍 Пошук запчастин..."
+    placeholder="Пошук запчастин..."
     style={{
       width: '100%',
       padding: '8px 14px',
