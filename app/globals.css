@@ -579,23 +579,40 @@ footer.site-footer a { color: var(--accent); }
 @media (max-width: 640px) {
   .header-nav { display: none !important; }
 
-  /* Дозволяємо перенос на 2 рядки */
   .header-inner {
-    flex-wrap: wrap !important;
-    height: auto !important;
-    padding: 10px 12px !important;
-    gap: 8px !important;
+    flex-wrap: nowrap !important;
+    height: 58px !important;
+    padding: 0 10px !important;
+    gap: 6px !important;
+    align-items: center !important;
   }
 
-  /* Пошук — окремий рядок на всю ширину */
+  /* Лого менше */
+  .header-inner > div:first-child > a > div {
+    width: 80px !important;
+    height: 38px !important;
+  }
+
+  .header-inner > div:first-child > a > div img {
+    height: 70px !important;
+  }
+
+  /* Пошук короткий */
   .header-inner form {
-    order: 10;
-    width: 100% !important;
-    flex: none !important;
+    flex: 1 !important;
+    max-width: 160px !important;
   }
 
   .header-inner form input {
-    padding: 10px 16px !important;
-    font-size: 14px !important;
+    padding: 7px 10px !important;
+    font-size: 12px !important;
+  }
+
+  /* Кошик компактний */
+  .header-cart {
+    padding: 7px 10px !important;
+    font-size: 12px !important;
+    white-space: nowrap !important;
+    flex-shrink: 0 !important;
   }
 }
