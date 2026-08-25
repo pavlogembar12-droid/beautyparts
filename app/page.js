@@ -187,12 +187,12 @@ export default async function HomePage() {
         {models.length > 0 && (
           <section style={{ marginTop: '8px', marginBottom: '48px' }}>
             <h2 className="section-title">Оберіть свою модель</h2>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(140px, 1fr))', gap: '14px' }}>
+            <div style={{ display: 'flex', gap: '14px', overflowX: 'auto', paddingBottom: '8px', flexWrap: 'nowrap' }}>
               {models.slice(0, 8).map((m) => (
                 <Link
                   key={m.slug}
                   href={`/model/${m.slug}`}
-                  style={{ background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: 10, padding: '16px 12px', textAlign: 'center', textDecoration: 'none', color: 'var(--text)', transition: 'border-color .2s' }}
+                  style={{ background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: 10, padding: '16px 12px', textAlign: 'center', textDecoration: 'none', color: 'var(--text)', transition: 'border-color .2s', flexShrink: 0, minWidth: '150px' }}
                 >
                   {m.image ? (
                     <img src={m.image} alt={m.name} style={{ width: '100%', height: 64, objectFit: 'contain', marginBottom: 8, background: '#FAF7F2', borderRadius: 6 }} />
@@ -204,7 +204,7 @@ export default async function HomePage() {
               ))}
             </div>
             <div style={{ textAlign: 'center', marginTop: '20px' }}>
-              <Link href="/catalog" className="btn-primary">Дивитись усі моделі</Link>
+              <Link href="/catalog" className="btn-primary">Перейти до всіх моделей →</Link>
             </div>
           </section>
         )}
@@ -337,5 +337,4 @@ export default async function HomePage() {
       </div>
     </>
   );
-  }
-    
+}
