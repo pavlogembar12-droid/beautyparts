@@ -196,8 +196,7 @@ export default async function HomePage() {
                 <Link
                   key={m.slug}
                   href={`/model/${m.slug}`}
-                  style={{ background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: 10, padding: '16px 12px', textAlign: 'center', textDecoration: 'none', color: 'var(--text)', transition: 'border-color .2s' }}
-                >
+                  style={{ background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: 10, padding: '16px 12px', textAlign: 'center', textDecoration: 'none', color: 'var(--text)', transition: 'border-color .2s', flexShrink: 0, width: 140 }}
                   {m.image ? (
                     <img src={m.image} alt={m.name} style={{ width: '100%', height: 64, objectFit: 'contain', marginBottom: 8, background: '#FAF7F2', borderRadius: 6 }} />
                   ) : (
