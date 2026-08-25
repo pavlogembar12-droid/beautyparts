@@ -4,7 +4,7 @@ import { getAllProducts, getCategoryTree, getAllBrands, getAllModels, slugify } 
 export const revalidate = 300;
 
 const EXTRA_BRANDS = [];
-const HIDDEN_BRAND_SLUGS = [slugify('Універсальний')];
+const HIDDEN_BRAND_SLUGS = [slugify('Універсальний'), slugify('Moser / Wahl')];
 
 const REVIEWS = [
   {
@@ -38,7 +38,7 @@ const FAQS = [
   },
   {
     q: 'Яка умова повернення?',
-    a: 'Якщо деталь не підійшла або несправна — повернемо гроші або замінимо протягом 365 днів.',
+    a: 'Якщо деталь не підійшла або несправна — повернемо гроші або замінимо протягом 14 днів.',
   },
   {
     q: 'Як швидко прийде замовлення?',
