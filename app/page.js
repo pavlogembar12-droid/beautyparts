@@ -191,8 +191,8 @@ export default async function HomePage() {
         {models.length > 0 && (
           <section style={{ marginTop: '8px', marginBottom: '48px' }}>
             <h2 className="section-title">Оберіть свою модель</h2>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(140px, 1fr))', gap: '14px' }}>
-              {models.slice(0, 8).map((m) => (
+            <div style={{ display: 'flex', gap: '14px', overflowX: 'auto', paddingBottom: '4px', scrollbarWidth: 'thin' }}>
+  {models.slice(0, 10).map((m) => (
                 <Link
                   key={m.slug}
                   href={`/model/${m.slug}`}
