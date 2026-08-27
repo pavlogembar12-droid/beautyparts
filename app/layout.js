@@ -49,12 +49,43 @@ export default async function RootLayout({ children }) {
 
   return (
     <html lang="uk">
+      <head>
+        {/* BEGIN PLERDY CODE */}
+        <script data-plerdy_code="1">
+          {`
+            (function(w,d){
+              if(w.__plerdyCode)return;
+              w.__plerdyCode=1;
+              w._protocol=w.location.protocol=="https:"?"https://":"http://";
+              w._site_hash_code="d43beee0c3911b9343f3644657ff72df";
+              w._suid=80526;
+              var s=d.createElement("script");
+              s.async=true;
+              s.referrerPolicy="strict-origin-when-cross-origin";
+              s.src="https://a.plerdy.com/public/js/click/main.js?v="+Math.random();
+              d.head.appendChild(s);
+            })(window,document);
+          `}
+        </script>
+        {/* END PLERDY CODE */}
+      </head>
+
       <body>
         <CartProvider>
-          <SiteHeader categories={categories} brands={brands} models={models} />
+          <SiteHeader
+            categories={categories}
+            brands={brands}
+            models={models}
+          />
+
           {children}
+
           <footer className="site-footer">
-            <p>© 2026 Beauty Parts — запчастини для техніки краси. Доставка по Україні.</p>
+            <p>
+              © 2026 Beauty Parts — запчастини для техніки краси. Доставка по
+              Україні.
+            </p>
+
             <p style={{ marginTop: '6px' }}>
               <a href="tel:+380965407076">+380 (96) 540-70-76</a>
               {' · '}
