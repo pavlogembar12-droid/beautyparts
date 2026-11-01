@@ -30,6 +30,9 @@ export const metadata = {
       follow: true,
     },
   },
+  verification: {
+    google: 'dfQFPl7kjlzMuB1PS2LhcP78xQKjAhKLZ8aeg7-HsbM',
+  },
   openGraph: {
     title: 'Beauty Parts — Запчастини для машинок для стрижки',
     description:
